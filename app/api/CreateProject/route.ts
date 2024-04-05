@@ -9,7 +9,7 @@ import { NextResponse } from "next/server"
 export const POST = async (req:Request) =>{
     try {
         await ConnectedToDb()
-        const { projectName, projectType , Requirements , Description,fileUrl} = await req.json()
+        const { projectName, projectType , Requirements , Description,fileUrl,Price} = await req.json()
         const profile = await currentUser()
 
         if(!profile){
@@ -26,7 +26,8 @@ export const POST = async (req:Request) =>{
             project_description: Description,
             project_status:status.inQueue,
             projectFiles:fileUrl,
-            project_user: profile._id
+            project_user: profile._id,
+            price:Price
         })
 
 

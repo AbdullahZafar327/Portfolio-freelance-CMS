@@ -11,6 +11,9 @@ export interface IUser {
   user_name: string;
   user_email: string;
   user_image: string;
+  user_about?:string;
+  user_country?:string;
+  user_phoneNumber?:String;
   role:Role
   user_projects: { _id: Types.ObjectId }[];
 }
@@ -21,6 +24,9 @@ export const UserSchema = new Schema<IUser>({
   user_name: String,
   user_email: String,
   user_image: String,
+  user_about:{type:String,required:false},
+  user_phoneNumber: {type:String,required:false},
+  user_country:{type:String,required:false},
   role:{type:String,default:Role.Guest,enum:Object.values(Role)},
   user_projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
 }, { timestamps: true });
@@ -46,7 +52,10 @@ export interface IProject {
   project_status:status;
   project_progress: number;
   project_user: Types.ObjectId;
-  projectFiles:string[]
+  price:number,
+  projectFiles:string[];
+  FinishedFiles:string[];
+  paid:boolean;
   createdAt?:Date
 }
 
@@ -62,9 +71,32 @@ const ProjectSchema = new Schema<IProject>({
   project_status:{type:String,default:status.inQueue,enum:Object.values(status)},
   project_progress: {type:Number,default:0},
   projectFiles:[{type:String}],
+  FinishedFiles:[{type:String}],
+  price:{type:Number,required:true},
+  paid:{type:Boolean,default:false},
   project_user: { type: Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true });
 
+export interface IOrder {
+  _id:Types.ObjectId,
+  order_items:Object,
+  Order_user:Types.ObjectId,
+  Order_project:Types.ObjectId,
+  paid:boolean
+
+}
+const OrderSchema = new Schema <IOrder>({
+  _id:{type:Schema.Types.ObjectId,auto:true},
+   order_items:Object,
+   Order_user:{type:Schema.Types.ObjectId,ref:'User'},
+   Order_project:{type:Schema.Types.ObjectId,ref:'Project'},
+   paid:{type:Boolean,default:false}
+},{
+  timestamps:true
+})
+
+const Order = models?.['Order'] || model<IOrder>('Order',OrderSchema)
+
 const Project = models?.['Project'] || model<IProject>('Project', ProjectSchema);
 
-export {User,Project}
+export {User,Project,Order}

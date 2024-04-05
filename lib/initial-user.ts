@@ -26,7 +26,7 @@ export const InitialUser = async () =>{
                 user_name:`${user.firstName}${user.lastName}`,
                 user_email:user.emailAddresses[0].emailAddress,
                 role: Admin ? Role.Admin : Role.Guest,
-                user_image:user.imageUrl
+                user_image:user.imageUrl,
             })
             return profile
         }

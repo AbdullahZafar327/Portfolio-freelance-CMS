@@ -1,9 +1,9 @@
-import About from "@/components/About";
-import Hero from "@/components/Hero";
-import Portfolio from "@/components/Portfolio";
-import Service from "@/components/Service";
-import Skills from "@/components/Skills";
-import Navbar from "@/components/navbar";
+import About from "@/components/Protfolio-sections/About";
+import Hero from "@/components/Protfolio-sections/Hero";
+import Portfolio from "@/components/Protfolio-sections/Portfolio";
+import Service from "@/components/Protfolio-sections/Service";
+import Skills from "@/components/Protfolio-sections/Skills";
+import Navbar from "@/components/Protfolio-sections/navbar";
 import { InitialUser } from "@/lib/initial-user";
 import { currentUser } from "@clerk/nextjs";
 import React from "react";

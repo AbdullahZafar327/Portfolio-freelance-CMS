@@ -4,7 +4,7 @@ import withVideos from 'next-videos'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['utfs.io']
+        domains: ['utfs.io','img.clerk.com']
     },
     webpack: (config, { isServer }) => {
         // Add the node-loader rule for binary modules
