@@ -95,7 +95,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
     price,
     paid,
   } = project;
-  const fetchProjects = useProjectsStore((state) => state.fetchProjects);
+  const { fetchProjects } = useProjectsStore();
   const isPaymentToast = useProjectsStore((state) => state.isPaymentToast);
   const { userId } = useAuth();
 
@@ -412,7 +412,6 @@ const ProjectEditCard = ({ project }: projectProps) => {
                                 endPoint="Uploader"
                                 onChange={field.onChange}
                                 value={field.value}
-                                
                               />
                             </FormControl>
                             <FormMessage />

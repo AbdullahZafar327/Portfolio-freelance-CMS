@@ -14,7 +14,7 @@ const AllOrders = () => {
     },[])
     
 
-    const Orders = allOrders.filter((order)=>order.paid === true && order.Order_project.project_status !== status.completed)
+    const Orders = allOrders.filter((order)=>order?.paid === true && order?.Order_project?.project_status !== status.completed)
   return (
     <>
       <div className="grid xl:grid-cols-4 lg:grid-cols-2 grid-cols-1 gap-2 w-full flex-wrap">

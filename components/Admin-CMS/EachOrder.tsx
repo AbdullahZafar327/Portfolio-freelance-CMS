@@ -28,6 +28,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
+import qs from 'query-string'
 
 interface OrderProps {
   order: Order_Project_User;
@@ -43,16 +44,6 @@ const EachOrder = ({ order }: OrderProps) => {
   const [currentOrder, setcurrentOrder] = useState(order);
   const [currentProject, setCurrentProject] = useState(order.Order_project);
   const { _id, Order_project, Order_user, paid } = order;
-  const {
-    project_type,
-    price,
-    project_progress,
-    project_status,
-    project_title,
-    projectFiles,
-    project_description,
-    project_requirements,
-  } = Order_project;
   const { user_name, user_email, user_image } = Order_user;
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -125,8 +116,15 @@ const EachOrder = ({ order }: OrderProps) => {
     try {
       setIsDeleting(true);
       if (currentProject._id || order.Order_project?._id) {
+        const url = qs.stringifyUrl({
+          url:`/api/orders/delete`,
+          query:{
+            projectId:currentProject?._id.toString(),
+            orderId:_id.toString()
+          }
+        })
         const response = await axios.delete(
-          `/api/updateProject/${currentProject._id || order.Order_project?._id}`
+        url
         );
         setcurrentOrder(response.data);
         setIsDeleting(false);
@@ -137,25 +135,6 @@ const EachOrder = ({ order }: OrderProps) => {
       console.log("ERROR WHILE DELETING PROJECT", error);
     }
   };
-
-  // const DeliverProjectFiles = async (values: z.infer<typeof formSchema>) => {
-  //   try {
-  //     if (currentOrder._id || order.Order_project?._id) {
-  //       const response = await axios.post(
-  //         `/api/deliverProject/${
-  //           currentProject._id || order.Order_project?._id
-  //         }`,
-  //         values
-  //       );
-  //       if (response) {
-  //         toast({
-  //           title: "Delivered Files successfully",
-  //           variant: "Good",
-  //         });
-  //       }
-  //     }
-  //   } catch (error) {}
-  // };
 
   const fileRef = form.register("Files");
 
@@ -185,8 +164,8 @@ const EachOrder = ({ order }: OrderProps) => {
           <div className="flex items-start justify-between">
             {/* //@ts-ignore */}
             <p className="font-semibold text-lg">
-              {currentOrder.createdAt?.toString().split("T")[0] ||
-                order.createdAt?.toString().split("T")[0]}
+              {/* @ts-ignore */}
+              {currentOrder?.createdAt?.toString().split("T")[0] ||order?.createdAt?.toString().split("T")[0]}
             </p>
             <span>
               <DropDownMenu
@@ -198,35 +177,35 @@ const EachOrder = ({ order }: OrderProps) => {
 
           <div className="flex items-center justify-center p-8">
             <p className="font-bold text-3xl text-center">
-              {currentProject.project_type || project_type}
+              {currentProject?.project_type || Order_project?.project_type}
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <ProjectAccordion
-              content={currentProject.project_title || project_title}
+              content={currentProject?.project_title || Order_project?.project_title}
               label="Project Title"
             />
             <ProjectAccordion
               content={
-                currentProject?.project_requirements || project_requirements
+                currentProject?.project_requirements || Order_project?.project_requirements
               }
               label="Project Requirements"
             />
             <ProjectAccordion
               content={
-                currentProject?.project_description || project_description
+                currentProject?.project_description || Order_project?.project_description
               }
               label="Project Description"
             />
             <ProjectAccordion
-              content={currentProject?.project_status || project_status}
+              content={currentProject?.project_status || Order_project?.project_status}
               label="Project Status"
             />
             <ProjectAccordion
-              files={currentProject?.projectFiles || projectFiles}
+              files={currentProject?.projectFiles || Order_project?.projectFiles}
               label="Download Files"
             />
-            {order.paid && order.Order_project.paid && (
+            {order?.paid && order?.Order_project?.paid && (
               <div className="flex items-center gap-4">
                 <p className="font-bold font-poppins">Paid :</p>
                 <span className="bg-green-600 px-2 py-1 rounded-lg font-poppins text-xs items-center text-center font-normal">
@@ -286,41 +265,23 @@ const EachOrder = ({ order }: OrderProps) => {
             <p className="font-semibold text-lg">Progress</p>
             <Slider
               defaultValue={[
-                currentProject.project_progress || project_progress,
+                currentProject?.project_progress || Order_project?.project_progress,
               ]}
               max={100}
               step={10}
               onValueChange={(v) => handleSliderChange(v[0])}
             />
             <Progress
-              value={Order_project.project_progress || project_progress}
+              value={currentProject?.project_progress || Order_project?.project_progress}
             />
             <div className="flex flex-row-reverse items-end w-full">
               <span className="font-semibold ">
-                {currentProject.project_progress || project_progress}%
+                {currentProject?.project_progress || Order_project?.project_progress}%
               </span>
             </div>
           </div>
 
           <div>
-            {/* <Form {...form}>
-              <form onSubmit={form.handleSubmit(DeliverProjectFiles)}>
-                <FormField
-                  control={form.control}
-                  name="Files"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Upload Files</FormLabel>
-                      <FormControl>
-                        <UploadFinishedFiles
-                          endPoint="ProjectDeliver"
-                          onChange={field.onChange}
-                          value={field.value}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                /> */}
             <div className="w-full flex items-center justify-center">
               <button
                 type="submit"
@@ -348,8 +309,6 @@ const EachOrder = ({ order }: OrderProps) => {
                 Reject
               </button>
             </div>
-            {/* </form>
-            </Form> */}
           </div>
           {isLoading && (
             <div className="flex items-center justify-center">

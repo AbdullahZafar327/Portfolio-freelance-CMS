@@ -1,13 +1,20 @@
+"use client"
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileAvatar from "../custom-ui/ProfileAvatar";
 import { currentUser } from "@/lib/current-user";
+import { useUserStore } from "@/lib/userStore";
 
 interface HeaderProps {
   title: string;
 }
-const Header = async ({ title }: HeaderProps) => {
-  const user = await currentUser()
+const Header = ({ title }: HeaderProps) => {
+  const {user,fetchUser} = useUserStore()
+
+  useEffect(()=>{
+    fetchUser()
+  },[])
+
   return (
     <>
     <div className="flex flex-col">

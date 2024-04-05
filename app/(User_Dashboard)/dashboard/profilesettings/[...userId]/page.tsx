@@ -14,7 +14,7 @@ const page = async () => {
   return (
     <div>
       <Header title="Profile Settings"/>
-      <ProfileSetting user={plainUser}/>
+      <ProfileSetting/>
     </div>
   )
 }
