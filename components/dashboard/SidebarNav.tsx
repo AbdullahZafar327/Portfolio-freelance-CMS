@@ -1,5 +1,4 @@
 "use client"
-import { redirectToSignIn, useAuth } from '@clerk/nextjs';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { LogOut, X } from 'lucide-react';
@@ -7,20 +6,13 @@ import { UserButton } from '@clerk/nextjs';
 import { Separator } from '@/components/ui/separator';
 import MenuItems from './MenuItems';
 import Image from 'next/image';
-import { IUser } from '@/lib/mongodb';
-import useProjectsStore from '@/lib/projectStore';
+
 import useMenuStore from '@/lib/MenuStore';
 import { useUserStore } from '@/lib/userStore';
 
 const SidebarNav = () => {
-  const { userId } = useAuth();
   const user = useUserStore((state)=>state.user)
   const fetchUser = useUserStore((state)=>state.fetchUser)
-
-  if (!userId) {
-    redirectToSignIn();
-    return null;
-  }
 
   useEffect(()=>{
    fetchUser()

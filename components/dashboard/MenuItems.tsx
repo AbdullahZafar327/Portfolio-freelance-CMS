@@ -24,10 +24,12 @@ import { cn } from "@/lib/utils";
 import { useUserStore } from "@/lib/userStore";
 
 
+
 const MenuItems = () => {
   const {toggleMenu} = useMenuStore()
   const { activeMenuItemId, setActiveMenuItemId } = useMenuStore();
-  const {user,fetchUser} = useUserStore()
+  const fetchUser = useUserStore((state)=>state.fetchUser)
+  const user = useUserStore((state)=>state.user)
     
  useEffect(()=>{
   fetchUser()

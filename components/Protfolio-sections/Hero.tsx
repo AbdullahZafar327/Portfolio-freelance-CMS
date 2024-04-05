@@ -80,7 +80,7 @@ const socialMediaData = [
           style={{ y: textY }}
           className="font-bold text-black text-3xl sm:text-6xl md:text-6xl"
         >
-          HI <span>👋</span>, I'M
+          HI <span>👋</span>&apos; I'M
         </motion.h1>
         <motion.h1
           style={{ y: textY }}
