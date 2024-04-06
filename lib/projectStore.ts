@@ -11,6 +11,8 @@ interface ProjectsState {
   allOrders:Order_Project_User[];
   isUploading: boolean;
   isPaymentToast:boolean;
+  isLoading:boolean;
+  setIsLoading:(loading:boolean)=>void;
   fetchProjects: () => Promise<void>;
   fetchAllOrders:()=>Promise<void>
   setShowToast:(toast:boolean)=>void;
@@ -25,6 +27,8 @@ const useProjectsStore = create<ProjectsState>((set) => ({
   allOrders:[],
   isUploading: false,
   isPaymentToast:false,
+  isLoading:false,
+  setIsLoading:((loading)=>set({isLoading:loading})),
   fetchProjects: async () => {
     try {
       const response = await axios.get('/api/getProjects');

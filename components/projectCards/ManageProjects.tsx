@@ -26,7 +26,7 @@ const ManageProjects = () => {
                 New Project <Plus />
               </Link>
             </div>
-        <div className="grid p-8 md:grid-cols-3 grid-cols-1 items-center w-full gap-2">
+        <div className="grid p-8 2xl:grid-cols-4 xl:grid-col-3 lg:grid-cols-2 grid-cols-1 items-center w-full gap-2">
            {projects?.map((project:IProject,idx:number)=>(
             <div key={idx} className='w-full flex items-center'>
               <ProjectEditCard project={project}/>

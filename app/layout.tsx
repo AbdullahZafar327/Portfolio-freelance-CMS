@@ -3,6 +3,7 @@ import { Karla, Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 
 const poppins = Poppins({
@@ -34,6 +35,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={`${poppins.variable} ${karla.variable}`}>
+          <LoadingOverlay/>
           {children}
         </body>
       </html>

@@ -18,7 +18,7 @@ const page = async () => {
     const Plain_F_Projects = JSON.parse(JSON.stringify(Finished_Projects))
 
   return (
-    <div>
+    <div className='h-screen lg:h-full'>
       <Header title="Download Project Files"/>
       {Finished_Projects.length < 0 ? (
          <div className='flex items-center justify-center w-full h-full'>
@@ -27,7 +27,7 @@ const page = async () => {
          </div>
       ):(
         <>
-        <div className="grid p-8 2xl:grid-cols-4 md:grid-cols-4 grid-cols-1 items-center w-full gap-2">
+        <div className="grid p-8 2xl:grid-cols-3  lg:grid-cols-2 grid-cols-1 items-center w-full gap-2">
         {Plain_F_Projects.map((completed_P:IProject,index:number)=>(
             <>
             <div key={index} className='w-full flex items-center'>

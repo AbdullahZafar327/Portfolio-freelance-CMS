@@ -7,10 +7,12 @@ import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import axios from "axios";
+import useProjectsStore from "@/lib/projectStore";
 
 const Stepper = () => {
   const { userId } = useAuth();
   const [userProjects, setUserProjects] = useState([]);
+  const {setIsLoading} = useProjectsStore()
   const isAuth = !!userId;
 
   useEffect(() => {
@@ -26,13 +28,21 @@ const Stepper = () => {
     fetchUserProjects();
   }, [userProjects.length]);
 
+  
+  const simulateLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000); 
+  };
+
   const hasProjects = userProjects && userProjects.length > 0;
 
   const steps = [
     {
       name: !isAuth ? "Sign Up" : "Signed",
       icon: isAuth ? <Check /> : <PersonStanding />,
-      link: !isAuth ? "/sign-up" : "/",
+      link: !isAuth ? "/sign-up" : "",
       color: !isAuth ? "teal" : "green",
     },
     {
@@ -71,9 +81,9 @@ const Stepper = () => {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              type="button"
+              onClick={simulateLoading}
               className={cn(
-                "text-white bg-gradient-to-r rounded-full cursor-pointer from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium text-lg px-6 py-4 text-center me-2 mb-2",
+                "text-white bg-gradient-to-r rounded-sm font-poppins cursor-pointer from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium text-lg px-6 py-4 text-center me-2 mb-2",
                 isAuth && step.name === "Signed"
                   ? "from-green-400 via-green-500 to-green-600 dark:shadow-green-800/80 shadow-green focus:ring-green-300 focus-visible:ring-green-800 shadow-green-500/50"
                   : "",
@@ -84,10 +94,12 @@ const Stepper = () => {
                   ? "from-green-400 via-green-500 to-green-600 dark:shadow-green-800/80 shadow-green focus:ring-green-300 focus-visible:ring-green-800 shadow-green-500/50 hover:from-blue-400 hover:via-blue-500 hover:to-blue-600"
                   : ""
               )}
+
+              style={{ boxShadow: "4px 4px 0px rgba(0,0,0,1)" }}
             >
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  {step.icon} {/* Place the icon separately */}
+                  {step.icon} 
                 </div>
                 <div>{step.name}</div>
               </div>

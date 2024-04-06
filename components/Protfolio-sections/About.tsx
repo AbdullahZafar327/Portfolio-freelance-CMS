@@ -1,11 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import { Star } from "lucide-react";
 import Image from "next/image";
-import PieChart from "../custom-ui/pie";
 import { useScroll, useTransform, motion } from "framer-motion";
-import Blob from "../Blob";
-import SimpleCloud from "../TagSphere";
 import CircularProgress from "../custom-ui/CircularProgress";
 
 const About = () => {
@@ -109,16 +105,16 @@ const About = () => {
             </motion.div>
           </div>
         </div>
-        <div className="col-span-1 h-full w-full items-center justify-center p-4 relative">
+        <div className="col-span-1 h-full w-full items-center justify-center p-4 relative lg:mt-12 mt-0">
           <div
             style={{
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               backdropFilter: "blur(10px)",
             }}
-            className="flex items-center mt-32 bg-violet-500/60 bg-opacity-40 p-4 rounded-xl"
+            className="flex items-center mt-32 bg-violet-500/60 bg-opacity-40 p-2 rounded-xl lg:h-[300px]"
           >
             {" "}
-            <p className="text-lg font-karla">
+            <p className="text-xl font-karla text-center">
               My goal is to empower entrepreneurs through innovative online
               solutions. From crafting complex applications to designing
               captivating user interfaces, I leverage a unique blend of skills

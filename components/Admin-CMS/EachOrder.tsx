@@ -216,7 +216,7 @@ const EachOrder = ({ order }: OrderProps) => {
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <button className="flex items-center bg-white text-black rounded-lg px-4 py-2">
+              <button className="bg-white text-black rounded-lg px-4 py-2 cursor-pointer font-bold mt-2">
                 Upload File
               </button>
             </DialogTrigger>
@@ -231,10 +231,10 @@ const EachOrder = ({ order }: OrderProps) => {
                           control={form.control}
                           name="Files"
                           render={() => (
-                            <FormItem>
+                            <FormItem className="cursor-pointer">
                               <FormLabel>Upload Files</FormLabel>
                               <FormControl>
-                                <Input type="file" {...fileRef} />
+                                <Input type="file" {...fileRef} className="cursor-pointer" />
                               </FormControl>
                             </FormItem>
                           )}
@@ -243,7 +243,7 @@ const EachOrder = ({ order }: OrderProps) => {
                       <DialogFooter>
                         <button
                           type="submit"
-                          className="flex item-center px-4 py-2 bg-rose-400 font-lg font-bold font-mono rounded-lg"
+                          className="flex item-center px-4 py-2 bg-rose-400 hover:bg-rose-500 font-lg font-bold font-mono rounded-lg mt-2"
                         >
                           {uploading ? (
                             <>
