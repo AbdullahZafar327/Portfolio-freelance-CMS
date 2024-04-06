@@ -1,7 +1,15 @@
 import ManageProjects from '@/components/projectCards/ManageProjects'
 import React from 'react'
 
-const page = () => {
+interface pageProps {
+  UserId:string
+}
+const page = ({params}:{params:pageProps}) => {
+  const {UserId} = params
+  if(!UserId){
+    return null
+  }
+  
   return (
     <div>
       <ManageProjects/>

@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -52,12 +52,28 @@ const ProfileSetting = () => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const fetchUser = useUserStore((state)=>state.fetchUser)
-  const user = useUserStore((state)=>state.user)
+  const MemoUser = useUserStore((state)=>state.user)
   const {toast} = useToast()
 
-  useEffect(()=>{
-     fetchUser()
-  },[])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await fetchUser();
+        form.setValue("name", user?.user_name || "");
+        form.setValue("about", user?.user_about || "");
+        form.setValue("phoneNumber", user?.user_phoneNumber || "");
+        form.setValue("country", user?.user_country || "");
+        form.setValue("imageUrl", user?.user_image || "");
+      } catch (error) {
+        console.log("Error fetching user data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [isEditing]);
+  
+
+  const user = useMemo(() => MemoUser, [MemoUser]);
 
 
 
@@ -72,6 +88,7 @@ const ProfileSetting = () => {
       imageUrl: user?.user_image ,
     },
   });
+
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -95,7 +112,6 @@ const ProfileSetting = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.patch("/api/updateProfile/update", values);
-      console.log(response)
       form.reset();
       setIsEditing(false)
       fetchUser()
@@ -139,6 +155,7 @@ const ProfileSetting = () => {
                               disabled={isLoading}
                               placeholder="Please enter your name"
                               {...field}
+                              onChange={field.onChange}
                               value={field.value}
                               className="md:w-[500px] w-[350px]  h-[50px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4 "
                               style={{
@@ -165,6 +182,8 @@ const ProfileSetting = () => {
                               disabled={isLoading}
                               placeholder="Please enter your name"
                               {...field}
+                              onChange={field.onChange}
+                              value={field.value}
                               className="md:w-[500px] w-[350px]  h-[150px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4 "
                               style={{
                                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -354,7 +373,10 @@ const ProfileSetting = () => {
                     </div>
                     </div>
                     <div className="flex items-center mt-4">
-                     <button onClick={()=>setIsEditing(true)} className="md:px-8 px-6 py-4 flex justify-between items-center gap-2 bg-rose-500 hover:bg-gradient-to-br font-bold md:text-lg text-sm text-black border-2 border-black" >
+                     <button onClick={()=>{
+                      setIsEditing(true)
+                      fetchUser()
+                      }} className="md:px-8 px-6 py-4 flex justify-between items-center gap-2 bg-rose-500 hover:bg-gradient-to-br font-bold md:text-lg text-sm text-black border-2 border-black" >
                        Edit <Image src="/edit.png" alt="cancel" width={20} height={20} />
                      </button>
                     </div>

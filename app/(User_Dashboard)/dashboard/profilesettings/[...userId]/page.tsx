@@ -3,11 +3,12 @@ import Header from '@/components/dashboard/header'
 import { currentUser } from '@/lib/current-user'
 import React from 'react'
 
-const page = async () => {
-  const user = await currentUser()
-  const plainUser = JSON.parse(JSON.stringify(user))
-
-  if(!user){
+interface pageProps{
+  userId:string
+}
+const page = async ({params}:{params:pageProps}) => {
+  const {userId} = params
+  if(!userId){
     return null
   }
 

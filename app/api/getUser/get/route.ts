@@ -16,7 +16,7 @@ export const GET = async (req: NextRequest) => {
             return new NextResponse("User not found", { status: 404 });
         }
 
-        return new NextResponse(user, { status: 200 });
+        return new NextResponse(JSON.stringify(user), { status: 200 });
     } catch (error) {
         console.log(error);
         return new NextResponse("INTERNAL SERVER ERROR", { status: 500 });

@@ -36,6 +36,7 @@ const MenuItems = () => {
       setIsLoading(false);
     }, 4000);
   };
+  
 
   useEffect(() => {
     fetchUser();

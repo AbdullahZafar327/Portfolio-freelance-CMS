@@ -3,15 +3,23 @@ import CompletedProject from '@/components/projectCards/CompletedProject'
 import { currentUser } from '@/lib/current-user'
 import ConnectedToDb from '@/lib/dbConnection'
 import { IProject, Project, status } from '@/lib/mongodb'
-import { redirectToSignIn } from '@clerk/nextjs'
+import { RedirectToSignIn, redirectToSignIn } from '@clerk/nextjs'
 import Image from 'next/image'
 import React from 'react'
 
-const page = async () => {
+interface pageProps {
+  userId:string
+}
+
+const page = async ({params}:{params:pageProps}) => {
     const user = await currentUser()
+    const {userId} = params
+    if(!userId){
+      return null
+    }
     await ConnectedToDb()
-    if(!user){
-        return redirectToSignIn()
+    if(!user ){
+        <RedirectToSignIn redirectUrl={"/sign-in"}/>
     }
 
     const Finished_Projects = await Project.find({project_status:status.completed,project_user:user?._id})

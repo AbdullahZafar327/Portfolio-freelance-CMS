@@ -1,14 +1,15 @@
 "use client";
 import { UploadButton } from "@/lib/uploadthing";
-import { Camera, Loader, LoaderIcon, X, XCircle } from "lucide-react";
+import { Camera, LoaderIcon, X, XCircle } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import useProjectsStore from "@/lib/projectStore";
 import { AnimatePresence, motion } from "framer-motion";
 import { UploadDropzone } from "@uploadthing/react";
+import { OurFileRouter } from "@/app/api/uploadthing/core";
 
 interface UploadProps {
-  endPoint: "ProfileUploader";
+  endPoint: keyof OurFileRouter;
   onChange: (url?: string) => void;
   value?: string;
 }
@@ -55,34 +56,33 @@ const UploadProfile = ({ endPoint, onChange, value }: UploadProps) => {
                   exit={{ y: 10 }}
                   className="font-semibold text-white bg-white bg-opacity-10 flex rounded-full items-center gap-2 px-6 py-4 text-lg cursor-pointer z-10"
                 >
-                {loading ? (
-                 <>
-                 <LoaderIcon className="animate-spin"/>
-                 </>
-                ):(
+                  {loading ? (
                     <>
-                    <UploadButton
-                    endpoint={endPoint}
-                    onUploadBegin={() => {
-                      setIsUploading(true);
-                      setLoading(true);
-                    }}
-                    onClientUploadComplete={(res) => {
-                      setIsUploading(false);
-                      setLoading(false);
-                      onChange(res[0].url);
-                    }}
-                    onUploadError={(error: Error) => {
-                      setError(true);
-                      setTimeout(() => {
-                        setError(false);
-                      }, 3000);
-                    }}
-                  ></UploadButton>
-                  <Camera />
-                  </>
-                )}
-                 
+                      <LoaderIcon className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      <UploadButton
+                        endpoint={endPoint}
+                        onUploadBegin={() => {
+                          setIsUploading(true);
+                          setLoading(true);
+                        }}
+                        onClientUploadComplete={(res) => {
+                          setIsUploading(false);
+                          setLoading(false);
+                          onChange(res[0].url);
+                        }}
+                        onUploadError={(error: Error) => {
+                          setError(true);
+                          setTimeout(() => {
+                            setError(false);
+                          }, 3000);
+                        }}
+                      ></UploadButton>
+                      <Camera />
+                    </>
+                  )}
                 </motion.h1>
               </div>
             </motion.div>
@@ -99,22 +99,20 @@ const UploadProfile = ({ endPoint, onChange, value }: UploadProps) => {
 
   return (
     <>
-      <UploadDropzone
+    {/* @ts-ignore */}
+      <UploadDropzone<OurFileRouter>
         endpoint={endPoint}
-        onUploadBegin={() => {
-          setIsUploading(true);
-          setLoading(true);
-        }}
         onClientUploadComplete={(res) => {
           setIsUploading(false);
           setLoading(false);
-          onChange(res[0].url);
+          onChange(res[0]?.url);
         }}
         onUploadError={(error: Error) => {
-          setError(true);
-          setTimeout(() => {
-            setError(false);
-          }, 3000);
+          alert(`ERROR! ${error.message}`);
+        }}
+        onUploadBegin={(file) => {
+          setIsUploading(true);
+          setLoading(true);
         }}
         className="bg-black bg-opacity-35 w-[300px]"
       />

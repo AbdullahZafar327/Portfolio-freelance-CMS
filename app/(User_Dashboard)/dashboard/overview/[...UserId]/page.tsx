@@ -12,10 +12,16 @@ import Link from "next/link";
 import React from "react";
 import ShowToast from "@/components/ShowToast";
 
-const page = async () => {
-  const user = await currentUser();
 
-  if (!user) {
+interface pageProps {
+  UserId:string
+}
+
+const page = async ({params}:{params:pageProps}) => {
+  const user = await currentUser();
+  const {UserId} = params
+
+  if (!user && UserId) {
     return null;
   }
   await ConnectedToDb();
