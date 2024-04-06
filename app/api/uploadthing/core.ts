@@ -28,18 +28,6 @@ export const ourFileRouter = {
         image:{maxFileCount:1,maxFileSize:"4MB"}
     }).middleware(()=>handleAuth()).onUploadComplete(async()=>{}),
 
-    ProjectDeliver: f({
-        image: { maxFileCount: 5, maxFileSize: '64MB' }, 
-        pdf: { maxFileCount: 2 },
-        mime: { 
-            maxFileCount: 3, 
-            allowedTypes: ['application/json', 'text/html', 'text/javascript', 'text/css', 'application/javascript'] 
-        },
-        other: { maxFileCount: 3, allowedExtensions: ['.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'] }
-    })
-    .middleware(() => handleAuth())
-    .onUploadComplete(async () => {})
-
     
 } satisfies FileRouter;
  
