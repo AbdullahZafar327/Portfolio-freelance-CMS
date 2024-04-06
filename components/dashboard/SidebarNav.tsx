@@ -13,16 +13,13 @@ import { useUserStore } from '@/lib/userStore';
 const SidebarNav = () => {
   const user = useUserStore((state)=>state.user)
   const fetchUser = useUserStore((state)=>state.fetchUser)
+  const { isOpen, toggleMenu } = useMenuStore();
 
   useEffect(()=>{
    fetchUser()
   },[])
 
-
   
-
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { isOpen, toggleMenu } = useMenuStore();
   
 
   return (
@@ -70,7 +67,7 @@ const SidebarNav = () => {
             <div className="bg-white/40 w-full flex items-center justify-center h-[100px] rounded-3xl">
               <div className="flex items-center gap-2">
                 <LogOut />
-                <UserButton />
+                <UserButton/>
                 <h1 className="font-semibold text-xl"></h1>
               </div>
             </div>

@@ -59,14 +59,14 @@ const ProjectQueueCard = ({ project, user }: ProjectQueueCardProps) => {
       case "inQueue":
         return (
           <p className="flex text-sm text-center gap-2 items-center font-light font-poppins">
-            Thank you for your patience! I'll be starting on your project soon&rsquo;
+            Thank you for your patience! I will be starting on your project soon
             <Smile className="text-black" fill="yellow" />
           </p>
         );
       case "rejected":
         return (
           <p className="flex text-sm text-center gap-2 items-center font-poppins font-light">
-            I&apos;m sorry, but your project has been rejected.Please try again
+            I&apos;m sorry&lsquo; but your project has been rejected.Please try again
             later!
             <Frown className="text-black" fill="red" />
           </p>
