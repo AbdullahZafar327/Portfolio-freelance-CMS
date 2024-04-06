@@ -9,7 +9,8 @@ import {
 import { MoreVerticalIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { currentUser, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
+import useProjectsStore from "@/lib/projectStore";
 
 interface DropDownMenuProps {
   handleChange: () => void;
@@ -18,6 +19,15 @@ interface DropDownMenuProps {
 
 const DropDownMenu = ({ handleChange, isDeleting }: DropDownMenuProps) => {
   const {userId} = useAuth()
+
+  const { setIsLoading } = useProjectsStore();
+
+  const simulateLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  };
   return (
     <div>
       <DropdownMenu>
@@ -40,7 +50,7 @@ const DropDownMenu = ({ handleChange, isDeleting }: DropDownMenuProps) => {
           <DropdownMenuItem
             className="cursor-pointer flex items-center justify-between"
           >
-            <Link href={`/dashboard/projects/${userId}`} className="flex items-center justify-between w-full">
+            <Link href={`/dashboard/projects/${userId}`} onClick={simulateLoading} className="flex items-center justify-between w-full">
               Edit
               <Image src="/editable.png" alt="edit" width={20} height={20} />
             </Link>
