@@ -2,13 +2,13 @@ import { currentUser } from "@/lib/current-user"
 import ConnectedToDb from "@/lib/dbConnection"
 import { Order, Project, Role } from "@/lib/mongodb"
 import { NextApiRequest } from "next"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 interface propsId{
 projectId:string,
 orderId:string
 }
 
-export const DELETE = async (req:NextApiRequest,{params}:{params:propsId})=>{
+export const DELETE = async (req:NextRequest,{params}:{params:propsId})=>{
     await ConnectedToDb()
     try {
         const user = await currentUser()

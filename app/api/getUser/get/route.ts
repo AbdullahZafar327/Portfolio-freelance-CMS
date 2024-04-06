@@ -2,9 +2,9 @@ import { currentUser } from "@/lib/current-user"
 import ConnectedToDb from "@/lib/dbConnection"
 import { User } from "@/lib/mongodb"
 import { NextApiRequest } from "next"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export const GET = async (req:NextApiRequest)=>{
+export const GET = async (req:NextRequest)=>{
 await ConnectedToDb()
 try {
     const profile = await currentUser()

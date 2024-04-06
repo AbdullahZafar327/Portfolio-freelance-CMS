@@ -2,14 +2,14 @@ import { currentUser } from "@/lib/current-user"
 import ConnectedToDb from "@/lib/dbConnection"
 import { User } from "@/lib/mongodb"
 import { NextApiRequest } from "next"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 
-export const PATCH = async (req:NextApiRequest)=>{
+export const PATCH = async (req:NextRequest)=>{
     await ConnectedToDb()
 
     try {
-        const {name,about,country,phoneNumber,imageUrl} = await req.body
+        const {name,about,country,phoneNumber,imageUrl} = await req.json()
         const user = await currentUser()
 
         if(!user){

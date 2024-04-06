@@ -1,22 +1,21 @@
 import { currentUser } from "@/lib/current-user";
 import ConnectedToDb from "@/lib/dbConnection";
 import { Project, User } from "@/lib/mongodb";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 interface projectIdProps {
   projectId: string;
 }
 
 export const PATCH = async (
-  req: NextApiRequest,
+  req: NextRequest,
   { params }: { params: projectIdProps }
 ) => {
   await ConnectedToDb();
 
   try {
     const user = await currentUser();
-    const { project_status } = await req.body;
+    const { project_status } = await req.json();
 
     if (!user) {
       return new NextResponse("UnAuthorized User", { status: 404 });
