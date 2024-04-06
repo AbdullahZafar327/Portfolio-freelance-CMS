@@ -99,8 +99,7 @@ const UploadProfile = ({ endPoint, onChange, value }: UploadProps) => {
 
   return (
     <>
-    {/* @ts-ignore */}
-      <UploadDropzone<OurFileRouter>
+      <UploadButton
         endpoint={endPoint}
         onClientUploadComplete={(res) => {
           setIsUploading(false);
