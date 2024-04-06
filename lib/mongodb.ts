@@ -13,7 +13,7 @@ export interface IUser {
   user_image: string;
   user_about?:string;
   user_country?:string;
-  user_phoneNumber?:String;
+  user_phoneNumber?:string;
   role:Role
   user_projects: { _id: Types.ObjectId }[];
 }
