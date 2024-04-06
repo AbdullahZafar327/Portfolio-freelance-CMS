@@ -5,17 +5,14 @@ import Service from "@/components/Protfolio-sections/Service";
 import Skills from "@/components/Protfolio-sections/Skills";
 import Navbar from "@/components/Protfolio-sections/navbar";
 import { InitialUser } from "@/lib/initial-user";
-import { currentUser } from "@clerk/nextjs";
 import React from "react";
 
 const Home = async () => {
    await InitialUser();
-   const user = await currentUser()
-   const profile = JSON.parse(JSON.stringify(user))
-
+   
   return (
     <div>
-      <Navbar profile={profile}/>
+      <Navbar />
       <Hero />
       <About />
       <Portfolio />
