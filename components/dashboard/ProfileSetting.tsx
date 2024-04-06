@@ -1,5 +1,4 @@
 "use client";
-import useProjectsStore from "@/lib/projectStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -25,7 +24,6 @@ import "react-phone-input-2/lib/style.css";
 import { isMobilePhone } from "validator";
 import UploadProfile from "../project-modification/UploadProfile";
 import { Loader2Icon, Save } from "lucide-react";
-import { IUser } from "@/lib/mongodb";
 import PhoneInput from "react-phone-input-2";
 import Image from "next/image";
 import { Textarea } from "../ui/textarea";
@@ -44,14 +42,6 @@ const formSchema = z.object({
   imageUrl: z.string(),
 });
 
-const ProjectType = [
-  "Full stack Web Development",
-  "Fronted Development",
-  "Backend Development",
-  "UX / UI Web Design",
-  "3D website development",
-];
-
 interface Country {
   name: string;
   flag: string;
@@ -63,9 +53,7 @@ const ProfileSetting = () => {
   const [isEditing, setIsEditing] = useState(false);
   const fetchUser = useUserStore((state)=>state.fetchUser)
   const user = useUserStore((state)=>state.user)
-  const [profileLoading,setProfileLoading] = useState(false)
   const {toast} = useToast()
-  const {setIsLoading} = useProjectsStore()
 
   useEffect(()=>{
      fetchUser()
