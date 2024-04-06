@@ -112,7 +112,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
       });
       setTimeout(() => {
         window.location.href = `http://localhost:3000/dashboard/projects/${userId}`;
-      }, [4000]);
+      }, 4000);
     }
   }, [toast]);
 
