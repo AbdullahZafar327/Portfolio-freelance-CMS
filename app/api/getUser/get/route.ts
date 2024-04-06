@@ -13,7 +13,7 @@ try {
     }
 
     const user = await User.findOne({_id:profile._id})
-    return NextResponse.json(user,{status:200})
+    return new NextResponse(user,{status:200})
 } catch (error) {
     console.log(error)
     return new NextResponse("INTERNAL SERVER ERROR",{status:500})
