@@ -13,11 +13,9 @@ import { Separator } from "../ui/separator";
 import ProfileAvatar from "../custom-ui/ProfileAvatar";
 import DropDownMenu from "../dashboard/DropDownMenu";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import UploadFile from "../project-modification/uploadFile";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import UploadFinishedFiles from "../project-modification/UploadFinishedFiles";
 import {
   Dialog,
   DialogContent,

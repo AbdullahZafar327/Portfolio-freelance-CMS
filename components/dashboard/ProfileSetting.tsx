@@ -65,10 +65,12 @@ const ProfileSetting = () => {
   const user = useUserStore((state)=>state.user)
   const [profileLoading,setProfileLoading] = useState(false)
   const {toast} = useToast()
+  const {setIsLoading} = useProjectsStore()
 
   useEffect(()=>{
      fetchUser()
   },[])
+
 
 
 
@@ -105,6 +107,7 @@ const ProfileSetting = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.patch("/api/updateProfile/update", values);
+      console.log(response)
       form.reset();
       setIsEditing(false)
       fetchUser()
@@ -311,7 +314,7 @@ const ProfileSetting = () => {
             <div className="col-span-1 flex w-full justify-center">
               <div className="flex flex-col">
                 <div className="flex flex-col">
-                    <h4 className="font-serif font-light text-3xl">Name</h4>
+                    <h4 className="font-sans font-semibold text-2xl ml-2">Name</h4>
                     <div
                       className="mt-2 md:w-[500px] w-[350px] h-[50px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4  flex flex-col rounded-lg"
                       style={{
@@ -324,7 +327,7 @@ const ProfileSetting = () => {
                     </div>
                     </div>
                 <div className="flex flex-col mt-8">
-                    <h4 className="font-serif font-light text-3xl">About</h4>
+                    <h4 className="font-sans font-semibold text-2xl ml-2">About</h4>
                     <div
                       className="mt-2 md:w-[500px] w-[350px] h-[150px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4  flex flex-col rounded-lg"
                       style={{
@@ -337,7 +340,7 @@ const ProfileSetting = () => {
                     </div>
                     </div>
                 <div className="flex flex-col mt-8">
-                    <h4 className="font-serif font-light text-3xl">PhoneNumber</h4>
+                    <h4 className="font-sans font-semibold text-2xl ml-2">PhoneNumber</h4>
                     <div
                       className="mt-2 md:w-[500px] w-[350px] h-[50px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4  flex flex-col rounded-lg"
                       style={{
@@ -350,7 +353,7 @@ const ProfileSetting = () => {
                     </div>
                     </div>
                 <div className="flex flex-col mt-8">
-                    <h4 className="font-serif font-light text-3xl">Country</h4>
+                    <h4 className="font-sans font-semibold text-2xl ml-2">Country</h4>
                     <div
                       className="mt-2 md:w-[500px] w-[350px] h-[50px] border-0 focus-visible:ring-0 focus-visible:ring-offset-0  focus:outline-none overflow-hidden bg-white bg-opacity-40 p-4  flex flex-col rounded-lg"
                       style={{
