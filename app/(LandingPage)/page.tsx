@@ -11,7 +11,7 @@ const Home = async () => {
    await InitialUser();
    
   return (
-    <div>
+    <div className="items-center flex flex-col w-full max-w-full overflow-x-hidden">
       <Navbar />
       <Hero />
       <About />

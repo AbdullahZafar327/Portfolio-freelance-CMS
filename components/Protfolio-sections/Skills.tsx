@@ -35,10 +35,10 @@ const Skills = () => {
               initial={{ y: -10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="mt-2 font-bold text-rose-600 lg:text-6xl text-[50px]"
+              className="flex items-center gap-4 mt-2 font-bold text-rose-600 lg:text-6xl text-[50px]"
               style={{ y: textY }}
             >
-              Ninja <span className="text-black">At</span>
+              Ninja <span className="text-black">At</span>  <Image src="/ninja.png" alt="ninja" height={100} width={80} className="items-center flex"/>
             </motion.h1>
             <motion.h1
               initial={{ y: -10, opacity: 0 }}
@@ -51,56 +51,38 @@ const Skills = () => {
             </motion.h1>
           </div>
         </div>
-        <div className="grid xl:grid-cols-3  grid-cols-1 items-center justify-between gap-20 ">
+        <div className="grid xl:grid-cols-2 grid-cols-1 justify-start gap-20 container mx-0 px-0">
           {/* //First colum1 */}
-          <div className="flex flex-col items-center mt-4 p-4 col-span-1">
+          <div className="flex flex-col items-center lg:mt-4 mt-12 lg:p-4 p-0 pt-2 col-span-1 w-full">
             <code className="text-xl font-bold flex justify-between gap-2 items-center">
               <span>Coding Tools</span>
               <Image src="/coding.png" alt="coding" height={30} width={30} />
             </code>
-            <LineProgress value={92} name="React" />
-            <LineProgress value={90} name="Nextjs" />
-            <LineProgress value={80} name="Javascript" />
-            <LineProgress value={76} name="Nodejs" />
-            <LineProgress value={82} name="MongoDb" />
-            <LineProgress value={70} name="Threejs" />
-            <LineProgress value={88} name="Tailwindcss" />
-            <LineProgress value={88} name="MaterialUI" />
-            <LineProgress value={88} name="Tailwindcss" />
+            <LineProgress value={92} name="React"  imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={90} name="Nextjs" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={80} name="Javascript" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={76} name="Nodejs" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={82} name="MongoDb" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={70} name="Threejs" imageSrc="/Technologies/structure.png" />
+            <LineProgress value={88} name="Express" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={88} name="kubernetes" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={88} name="docker" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={88} name="Tailwindcss" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={88} name="MaterialUI" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={88} name="Tailwindcss" imageSrc="/Technologies/structure.png"/>
           </div>
           {/* //SECOND COLUM2 */}
-          <div className="flex flex-col items-center mt-4 p-4 col-span-1">
-            <code className="text-xl font-bold flex justify-between gap-2 items-center">
+          <div className="flex flex-col items-center lg:p-4 p-0 col-span-1 justify-start">
+            <code className="text-xl font-bold flex gap-2 justify-center">
               <span>Design Tools</span>
               <Image src="/layers.png" alt="coding" height={30} width={30} />
             </code>
-            <LineProgress value={92} name="React" />
-            <LineProgress value={90} name="Nextjs" />
-            <LineProgress value={80} name="Javascript" />
-            <LineProgress value={76} name="Nodejs" />
-            <LineProgress value={82} name="MongoDb" />
-            <LineProgress value={70} name="Threejs" />
-            <LineProgress value={88} name="Tailwindcss" />
-            <LineProgress value={88} name="MaterialUI" />
-            <LineProgress value={88} name="Tailwindcss" />
+            <LineProgress value={92} name="Figma" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={90} name="Illustrator" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={80} name="photoShop" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={76} name="Blender" imageSrc="/Technologies/structure.png"/>
+            <LineProgress value={82} name="Spline" imageSrc="/Technologies/structure.png"/>
           </div>
-
-          {/* //Ninja Column */}
-          <motion.div
-            className="col-span-1 w-full h-full"
-            initial={{ x: 300 }}
-            whileInView={{ x: 0 }}
-            transition={{ duration: 0.5, ease: easeInOut }}
-          >
-            <Image
-              src="/ninja_1.gif"
-              alt="ninja"
-              width={30}
-              height={30}
-              unoptimized
-              className="h-full w-full relative object-cover rounded-3xl"
-            />
-          </motion.div>
         </div>
       </div>
     </motion.div>

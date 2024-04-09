@@ -34,7 +34,7 @@ const MenuItems = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 5000);
   };
   
 

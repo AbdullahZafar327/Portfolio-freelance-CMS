@@ -9,13 +9,16 @@ import {
 } from "framer-motion";
 import { ArrowBigRight } from "lucide-react";
 import { Tilt } from "react-tilt";
-import Stepper from "./stepper/Stepper";
+
 import Link from "next/link";
+import Step from "./stepper/Step";
 
 const Service = () => {
   const [showOverlay, setShowOverlay] = useState(
     Array(MyServices.length).fill(false)
   );
+  const [currentStep, setCurrentStep] = useState(1)
+  const NUMBER_OF_STEPS = 5
   const containerRef = useRef(null);
 
   const defaultOptions = {
@@ -45,8 +48,8 @@ const Service = () => {
     target: containerRef,
     offset: ["start end", "end start"],
   });
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
-  const serviceY = useTransform(scrollYProgress, [0, 0.5], [-100, 10]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const serviceY = useTransform(scrollYProgress, [0, 0.5], [-50, 50]);
   const goUp = useTransform(scrollYProgress, [0, 0.5], [400, -10]);
 
   return (
@@ -64,24 +67,30 @@ const Service = () => {
             opacity,
             y: serviceY,
           }}
-          className="font-bold text-white text-6xl bg-black font-bodoniModa p-4 relative"
+          className="font-bold text-white lg:text-6xl text-3xl bg-black font-bodoniModa p-4 relative "
         >
           Services
         </motion.h1>
       </div>
-      <div className="relative container xl:mt-16 mt-0">
+      <div className="relative container">
         <motion.div
-          className="relative grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-2 items-center justify-center"
+          className="relative grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2 items-center justify-center"
           style={{ y: goUp, opacity }}
         >
           {MyServices?.map((service, idx) => (
-            <div className="grid-span-1 flex items-center justify-center" key={idx}>
-              <Tilt options={defaultOptions} key={`${service}-${idx}`}>
+            <div className="grid-span-1 flex items-center justify-center cursor-pointer mt-2" key={idx}
+            >
+              <Tilt options={defaultOptions} key={`${service}-${idx}`}
+               style={{
+                boxShadow:"10px 10px 0px  rgba(255,255,255,1)"
+              }}
+              className="rounded-3xl"
+              >
                 <motion.div
                   onHoverStart={() => handleHoverStart(idx)}
                   onHoverEnd={() => handleHoverEnd(idx)}
                   key={`${service}-${idx}`}
-                  className="relative border-2 border-black rounded-3xl  h-[700px] w-[500px] overflow-hidden"
+                  className="relative border-2 border-black rounded-3xl  lg:h-[700px] lg:w-[500px] w-[350px] h-[500px] overflow-hidden"
                 >
                   <div className="absolute top-12 w-full h-[2px] bg-white" />
                   <video
@@ -90,7 +99,7 @@ const Service = () => {
                     loop
                     playsInline
                     muted
-                    className="h-full w-full relative object-cover rounded-3xl"
+                    className="h-full w-full relative object-cover rounded-2xl"
                   >
                     {showOverlay[idx] && (
                   <div className="absolute bottom-0 flex inset-0 bg-white rounded-b-3xl">
@@ -128,7 +137,7 @@ const Service = () => {
                           exit={{ y: 10 }}
                           className="font-semibold bg-white hover:bg-green-400 flex rounded-full items-center gap-2 px-6 py-4 text-lg cursor-pointer z-10"
                         >
-                          <Link href="/createProject">Buy Now</Link>
+                          <Link href="/createProject" className="z-50">Buy Now</Link>
                           <ArrowBigRight />
                         </motion.h1>
                         </div>
@@ -142,11 +151,11 @@ const Service = () => {
         </motion.div>
       </div>
       <div className="flex items-center justify-center p-8">
-        <h1 className="font-bold text-black text-6xl text-center">
+        <h1 className="font-bold text-black lg:text-6xl text-3xl text-center">
           How It <span className="text-rose-500">Works?</span>
         </h1>
       </div>
-      <Stepper />
+      <Step numberOfSteps={NUMBER_OF_STEPS} currentStep={currentStep}/>
     </div>
   );
 };

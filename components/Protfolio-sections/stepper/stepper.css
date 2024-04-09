@@ -1,5 +1,5 @@
 .step-item{
-    @apply relative flex flex-col gap-8 justify-between items-center md:w-80 w-96;
+    @apply relative flex flex-col gap-8 justify-between items-center md:w-80 w-[290px];
 }
 
 .step-item:not(:first-child):before{
@@ -7,5 +7,5 @@
 }
 
 .step{
-    @apply relative z-10 flex h-24 w-24 items-center justify-center bg-rose-500 rounded-full font-bold text-3xl text-white shadow-lg shadow-black
+    @apply relative z-10 flex h-24 w-24 items-center justify-center bg-violet-500 rounded-full font-bold text-3xl text-white shadow-lg shadow-black
 }

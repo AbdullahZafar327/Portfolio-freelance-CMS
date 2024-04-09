@@ -5,7 +5,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import useProjectsStore from "@/lib/projectStore";
 import { AnimatePresence, motion } from "framer-motion";
-import { UploadDropzone } from "@uploadthing/react";
 import { OurFileRouter } from "@/app/api/uploadthing/core";
 
 interface UploadProps {

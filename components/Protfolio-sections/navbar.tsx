@@ -52,7 +52,7 @@ const Navbar = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000); 
+    }, 5000); 
   };
 
   return (
@@ -101,6 +101,7 @@ const Navbar = () => {
               <>
                 <Link
                   href="/sign-in"
+                  onClick={simulateLoading}
                   className="font-bold font-karla text-lg hover:text-rose-500"
                 >
                   Login
@@ -109,6 +110,7 @@ const Navbar = () => {
                   variant="outline"
                   size="sm"
                   className="justify-center rounded-full"
+                  onClick={simulateLoading}
                 >
                   <Link href="/sign-up" className="font-bold font-karla">
                     Sign up

@@ -54,13 +54,12 @@ const CircularProgress = ({value,name}:circularProps) => {
             strokeWidth={20}
             strokeDasharray={472}
             strokeDashoffset={200}
-            initial={{
-                strokeDashoffset:472
-            }}
             animate={{
-                strokeDashoffset:strokeDashOffset
+                 strokeDashoffset:472,
+                opacity:0,
               }}
-              transition={{duration:1,ease:easeIn}}
+              transition={{duration:1,ease:"easeInOut",}}
+              whileInView={{opacity:1,strokeDashoffset:strokeDashOffset}}
           />
         </motion.svg>
       </div>

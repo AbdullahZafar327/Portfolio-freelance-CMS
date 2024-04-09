@@ -29,7 +29,7 @@ const Portfolio = () => {
   return (
     <motion.div
       id="portfolio-section"
-      className="bg-[#FBDE4B] flex flex-col w-full p-8 h-screen"
+      className="bg-[#FBDE4B] flex flex-col w-full p-8 lg:h-screen max-h"
       ref={containerRef}
     >
       <div className="md:p-4 md:m-4 p-0 m-0 flex flex-row gap-4">
@@ -38,7 +38,7 @@ const Portfolio = () => {
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="font-bold text-black lg:text-6xl text-[50px] font-playfairDisplay"
+            className="font-bold text-black lg:text-6xl text-3xl font-playfairDisplay"
             style={{y:textY,opacity}}
           >
             Lets have a look at
@@ -47,13 +47,13 @@ const Portfolio = () => {
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="mt-2 font-bold text-rose-600 lg:text-6xl text-[50px] font-playfairDisplay"
+            className="mt-2 font-bold text-rose-600 lg:text-6xl text-3xl font-playfairDisplay"
             style={{y:textY,opacity}}
           >
             <span className="text-black">My </span> portfolio
           </motion.h1>
         </div>
-        <motion.div className="lg:p-8 p-2 mt-8" style={{y:textY,opacity}}>
+        <motion.div className="lg:p-8 lg:flex hidden" style={{y:textY,opacity}}>
           <svg
             className="lg:h-56 lg:w-44 h-36 w-28"
             viewBox="0 0 174 226"
@@ -81,7 +81,7 @@ const Portfolio = () => {
           </svg>
         </motion.div>
       </div>
-      <motion.div className="container flex items-center" style={{y:scrollY,opacity}} >
+      <motion.div className="container flex items-center lg:justify-start justify-center" style={{y:scrollY,opacity}} >
         <Swiper
           effect={"coverflow"}
           modules={[EffectCoverflow, Pagination, Navigation]}
@@ -98,7 +98,7 @@ const Portfolio = () => {
           slidesPerView={"auto"}
           pagination={true}
           navigation={true}
-          className="swiper_container flex items-center pt-0 mt-0"
+          className="swiper_container flex items-center lg:justify-start justify-center lg:pt-0 lg:mt-0 mt-8"
         >
           {Projects.map((project, index) => (
             <>

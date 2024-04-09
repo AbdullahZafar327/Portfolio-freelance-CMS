@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useScroll, useTransform, motion } from "framer-motion";
 import CircularProgress from "../custom-ui/CircularProgress";
@@ -11,7 +11,27 @@ const About = () => {
     offset: ["start end", "end start"],
   });
 
+  const [imageSize, setImageSize] = useState({ width: 400, height: 400 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setImageSize({ width: 300, height: 300 });
+      } else {
+        setImageSize({ width: 400, height: 400 });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   const aboutY = useTransform(scrollYProgress, [0, 0.5], [-50, 10]);
+  const BlobY = useTransform(scrollYProgress, [0, 0.5], [200, 0]);
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
 
@@ -58,7 +78,7 @@ const About = () => {
     <div
       id="about-section"
       ref={AboutContainerRef}
-      className="relative bg-[#ECEFFF] w-full p-4 h-max overflow-hidden"
+      className="relative bg-[#ECEFFF] w-full xl:p-4 p-0 h-max overflow-hidden"
     >
       <div className="flex flex-col items-center justify-center gap-3 pt-4">
         <motion.h1
@@ -69,7 +89,7 @@ const About = () => {
             opacity,
             y: aboutY,
           }}
-          className="font-bold text-white text-[50px] bg-black font-bodoniModa py-0 px-4 relative"
+          className="font-bold text-white lg:text-[50px] text-3xl bg-black font-bodoniModa lg:py-4 lg:px-4 py-2 px-2 relative"
         >
           ABOUT
         </motion.h1>
@@ -77,44 +97,63 @@ const About = () => {
       <div className="grid xl:grid-cols-3  grid-cols-1 w-full h-full p-4">
         <div className="col-span-1 h-full w-full">
           <div className="flex flex-col items-center">
-            <h1 className="flex items-center text-6xl font-bold font-poppins justify-between gap-2">
-              HI&nbsp;
-              <Image src="/bear.png" alt="hi there" width={50} height={50} />
-              ,Meet Abdullah
-            </h1>
-            <div
+            <motion.h1 className="flex items-center lg:text-6xl text-3xl font-bold font-poppins justify-between gap-2"
+            animate={{opacity:0,y:100}}
+            whileInView={{opacity:1,y:0}}
+            transition={{duration:0.3,ease:"easeIn"}}
+            >
+              Hi&nbsp;
+              <Image src="/bear.png" alt="hi there" width={30} height={30} />
+              I'm Abdullah
+            </motion.h1>
+            <motion.div
               style={{
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 backdropFilter: "blur(10px)",
               }}
+
+              animate={{opacity:0,y:100}}
+            whileInView={{opacity:1,y:0}}
+            transition={{duration:0.3,ease:"easeIn"}}
               className="bg-white bg-opacity-40 p-4 rounded-xl"
             >
               {" "}
               <p className="text-lg font-karla">
-                Who build 3D Visuals ,UX UI Designs and Web applications
+                I build 3D Visuals ,UX UI Designs and Full stack Web applications.
               </p>
-            </div>
-            <motion.div className="xl:h-[800px] xl:w-[800px] h-[600px] w-[600px] animate-blob bg-gradient-tr from-violet-500 to bg-purple-700 mt-8 flex items-center justify-center">
+            </motion.div>
+            <motion.div className="xl:h-[800px] xl:w-[800px] md:h-[600px] md:w-[600px] h-[500px] w-[500px] animate-blob bg-gradient-tr from-violet-500 to bg-purple-700 mt-8 flex items-center justify-center"
+            style={{
+              y:BlobY
+            }}
+            >
+              <motion.div
+              animate={{opacity:0,y:100}}
+              whileInView={{opacity:1,y:0}}
+              transition={{duration:0.3,ease:"easeIn"}}
+              >
               <Image
                 src="/profile2.png"
-                height={400}
-                width={400}
+                height={imageSize.height}
+                width={imageSize.width}
                 alt="profile2"
                 className="z-10 mt-8"
               />
+              </motion.div>
+             
             </motion.div>
           </div>
         </div>
-        <div className="col-span-1 h-full w-full items-center justify-center p-4 relative lg:mt-12 mt-0">
+        <div className="col-span-1 h-full w-full items-center justify-center p-8 relative lg:mt-12 mt-0">
           <div
             style={{
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               backdropFilter: "blur(10px)",
             }}
-            className="flex items-center mt-32 bg-violet-500/60 bg-opacity-40 p-2 rounded-xl lg:h-[300px]"
+            className="flex items-center xl:mt-32 mt-16 bg-violet-500/60 bg-opacity-40 p-8 rounded-xl lg:h-[300px]"
           >
             {" "}
-            <p className="text-xl font-karla text-center">
+            <p className="lg:text-xl text-lg font-karla text-center">
               My goal is to empower entrepreneurs through innovative online
               solutions. From crafting complex applications to designing
               captivating user interfaces, I leverage a unique blend of skills

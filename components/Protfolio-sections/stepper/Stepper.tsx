@@ -76,14 +76,14 @@ const Stepper = () => {
       {steps?.map((step, i) => (
         <div key={`${step}-${i}`} className="step-item">
           <div className="step">{i + 1}</div>
-          <Link href={`${step.link}`} passHref>
+          <Link href={`${step.link}`} passHref className="z-10">
             <motion.button
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5 }}
               onClick={simulateLoading}
               className={cn(
-                "text-white bg-gradient-to-r rounded-sm font-poppins cursor-pointer from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium text-lg px-6 py-4 text-center me-2 mb-2",
+                "text-white bg-gradient-to-r rounded-sm font-poppins cursor-pointer from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 font-medium lg:text-lg text-sm lg:px-6 lg:py-4 px-2 py-2 text-center lg:mb-2 mb-10",
                 isAuth && step.name === "Signed"
                   ? "from-green-400 via-green-500 to-green-600 dark:shadow-green-800/80 shadow-green focus:ring-green-300 focus-visible:ring-green-800 shadow-green-500/50"
                   : "",

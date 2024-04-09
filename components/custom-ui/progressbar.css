@@ -12,7 +12,13 @@
     background-color: #ECEFFF;
     box-shadow:0px 0px 5px #111
 }
+
+@media (max-width: 720px) {
  
+  .progressbar {
+      width: 150px; 
+  }
+}
 
 .bar{
     width:30%;

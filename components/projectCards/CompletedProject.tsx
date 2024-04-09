@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Accordion, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 interface Finished_ProjectsProps {
   completed_P: IProject;
@@ -56,67 +57,32 @@ const CompletedProject = ({ completed_P }: Finished_ProjectsProps) => {
             </div>
           </div>
           <div className="flex flex-col items-center justify-center w-full">
-            <Accordion type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger>
-                  <div className="flex items-center justify-between gap-4 w-full">
-                    <p className="font-serif font-bold">Download Files</p>
-                    <span>
-                      <DownloadCloud className="h-4 w-4" />
-                    </span>
+            <div className="flex items-center justify-between gap-4 w-full">
+              <p className="font-serif font-bold">Download Files</p>
+              <span>
+                <DownloadCloud className="h-4 w-4" />
+              </span>
+            </div>
+            {FinishedFiles.length > 0 && (
+              <div className="bg-white bg-opacity-50 rounded-lg w-full p-4 flex gap-4">
+                {FinishedFiles.map((url, index) => (
+                  <div className="flex items-center flex-col" key={url}>
+                    <Image
+                      src="/zip-folder.png"
+                      width={40}
+                      height={40}
+                      alt="ProjectFiles"
+                    />
+                    <Link
+                      href={url}
+                      className="flex items-center justify-center"
+                    >
+                      <Download className="h-8 w-8 hover:bg-black hover:bg-opacity-25 rounded-full p-1" />
+                    </Link>
                   </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="bg-white bg-opacity-25 flex items-center gap-1 p-1">
-                    {FinishedFiles.map((url, index) => {
-                      const fileType = url.split(".").pop();
-                      return (
-                        <motion.div
-                          onHoverStart={() => setShowOverlay(true)}
-                          onHoverEnd={() => setShowOverlay(false)}
-                          key={index}
-                          className="relative rounded-lg h-[80px] w-[80px] flex flex-col items-center justify-center cursor-pointer bg-orange-400"
-                        >
-                          {fileType && fileType === "png" && (
-                            <>
-                              <Image
-                                src="/png.png"
-                                alt="UploadFiles"
-                                width={60}
-                                height={60}
-                                className="relative"
-                              />
-                              <AnimatePresence>
-                                {showOverlay && (
-                                  <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="absolute inset-0 z-10 flex items-center justify-center"
-                                    style={{
-                                      transform: "translateZ(75px)",
-                                      transformStyle: "preserve-3d",
-                                    }}
-                                  >
-                                    <div className="pointer-events-none bg-black/20 absolute w-full h-full" />
-                                    <button
-                                      onClick={() => handleDownload(url)}
-                                      className="flex items-center gap-2"
-                                    >
-                                      <Download className="h-10 w-10 hover:bg-black hover:text-white rounded-full p-2" />
-                                    </button>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </>
-                          )}
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

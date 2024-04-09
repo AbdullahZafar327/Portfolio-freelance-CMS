@@ -2,9 +2,9 @@
 import useProjectsStore from "@/lib/projectStore";
 import { Order_Project_User } from "@/type";
 import axios from "axios";
-import { Loader2, Loader2Icon, } from "lucide-react";
+import { File, Loader2, Loader2Icon, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, {  useRef, useState } from "react";
 import { Slider } from "../ui/slider";
 import { Progress } from "../ui/progress";
 import ProjectAccordion from "../custom-ui/ProjectAccordian";
@@ -26,16 +26,23 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
-import qs from 'query-string'
+import qs from "query-string";
+import Link from "next/link";
+import Image from "next/image";
+
+declare module "react" {
+  interface InputHTMLAttributes<T> extends HTMLAttributes<T> {
+      webkitdirectory?: string;
+      directory?:string
+  }
+}
 
 interface OrderProps {
   order: Order_Project_User;
 }
 
 const formSchema = z.object({
-  Files: z
-    .custom<FileList>((val) => val instanceof FileList, "Required")
-    .refine((files) => files.length > 0, `Required`),
+  Files: z.custom<FileList>((val) => val instanceof FileList, "Required").refine((file)=>file.length>0,"required"),
 });
 
 const EachOrder = ({ order }: OrderProps) => {
@@ -46,11 +53,12 @@ const EachOrder = ({ order }: OrderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [isFileUploading, setIsFileUploading] = useState(false);
+  const [isDelivering,setIsDelivering] = useState(false)
   const router = useRouter();
   const fetchAllOrders = useProjectsStore((state) => state.fetchAllOrders);
-
-
-
+  const inputFileRef = useRef(null);
+  const [blob, setBlob] = useState<any[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -86,7 +94,7 @@ const EachOrder = ({ order }: OrderProps) => {
   const handleSliderChange = async (value: number) => {
     try {
       setIsLoading(true);
-      if (currentProject._id ||  order.Order_project?._id) {
+      if (currentProject._id || order.Order_project?._id) {
         // Check if _id is defined
         const response = await axios.patch(
           `/api/updateProgress/${
@@ -115,15 +123,13 @@ const EachOrder = ({ order }: OrderProps) => {
       setIsDeleting(true);
       if (currentProject._id || order.Order_project?._id) {
         const url = qs.stringifyUrl({
-          url:`/api/orders/delete`,
-          query:{
-            projectId:currentProject?._id.toString(),
-            orderId:_id.toString()
-          }
-        })
-        const response = await axios.delete(
-        url
-        );
+          url: `/api/orders/delete`,
+          query: {
+            projectId: currentProject?._id.toString(),
+            orderId: _id.toString(),
+          },
+        });
+        const response = await axios.delete(url);
         setcurrentOrder(response.data);
         setIsDeleting(false);
         fetchAllOrders();
@@ -136,19 +142,70 @@ const EachOrder = ({ order }: OrderProps) => {
 
   const fileRef = form.register("Files");
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setUploading(true);
+  const UploadFile = async (values: z.infer<typeof formSchema>) => {
     try {
-      const data = new FormData()
-      data.set("Files",values.Files?.[0])
-    
-      await axios.post('/api/uploadProjectFiles',data)
+      setIsFileUploading(true);
+      if (!values.Files) {
+        throw new Error("No file selected");
+      }
+  
+      const formData = new FormData();
+      const filesArray = Array.from(values.Files);
+      for (const file of filesArray) {
+        formData.append("files", file);
+      }
+  
+      const response = await axios.post(
+        "/api/uploadProjectFiles",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+  
+      const newBlob = await response?.data?.downloadUrl
+      setBlob((prevBlobArray) => [...prevBlobArray,newBlob]);
+      setIsFileUploading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const DeleteFile = async (url:string)=>{
+     try {
+       const response = await axios.delete(`/api/uploadProjectFiles`,{data:JSON.stringify(url)})
+       const newBlob = await response?.data?.downloadUrl
+       setBlob((prevBlobArray) => [...prevBlobArray, newBlob.downloadUrl]);
+
+     } catch (error) {
+       console.log(error)
+     } 
+  }
+
+  const DeliverProject = async () =>{
+    try {
+      setIsDelivering(true)
+      if(order._id && currentProject._id){
+        const url = qs.stringifyUrl({
+          url:`/api/DeliverProjectFiles/${currentProject._id}`,
+          query:{
+            orderId:order?._id.toString(),
+            projectId:currentProject._id.toString()
+          }
+        })
+        await axios.patch(url,{urls:blob})
+        fetchAllOrders()
+        router.refresh()
+        setIsDelivering(false)
+      }
+     
     } catch (error) {
       console.log(error)
+      setIsDelivering(false)
     }
-    setUploading(false);
-  };
+  }
 
   return (
     <>
@@ -180,27 +237,35 @@ const EachOrder = ({ order }: OrderProps) => {
           </div>
           <div className="flex flex-col gap-2">
             <ProjectAccordion
-              content={currentProject?.project_title || Order_project?.project_title}
+              content={
+                currentProject?.project_title || Order_project?.project_title
+              }
               label="Project Title"
             />
             <ProjectAccordion
               content={
-                currentProject?.project_requirements || Order_project?.project_requirements
+                currentProject?.project_requirements ||
+                Order_project?.project_requirements
               }
               label="Project Requirements"
             />
             <ProjectAccordion
               content={
-                currentProject?.project_description || Order_project?.project_description
+                currentProject?.project_description ||
+                Order_project?.project_description
               }
               label="Project Description"
             />
             <ProjectAccordion
-              content={currentProject?.project_status || Order_project?.project_status}
+              content={
+                currentProject?.project_status || Order_project?.project_status
+              }
               label="Project Status"
             />
             <ProjectAccordion
-              files={currentProject?.projectFiles || Order_project?.projectFiles}
+              files={
+                currentProject?.projectFiles || Order_project?.projectFiles
+              }
               label="Download Files"
             />
             {order?.paid && order?.Order_project?.paid && (
@@ -223,7 +288,7 @@ const EachOrder = ({ order }: OrderProps) => {
                 <DialogTitle>Upload Files</DialogTitle>
                 <div>
                   <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <form onSubmit={form.handleSubmit(UploadFile)}>
                       <DialogDescription>
                         <FormField
                           control={form.control}
@@ -232,7 +297,18 @@ const EachOrder = ({ order }: OrderProps) => {
                             <FormItem className="cursor-pointer">
                               <FormLabel>Upload Files</FormLabel>
                               <FormControl>
-                                <Input type="file" {...fileRef} className="cursor-pointer" />
+                                <>
+                                <Input
+                                  type="file"
+                                  className="cursor-pointer"
+                                  id="filepicker"
+                                  {...fileRef}
+                                  multiple
+                                  directory=""
+                                  webkitdirectory=""
+                                />
+                                 <ul id="listing"></ul>
+                                 </>
                               </FormControl>
                             </FormItem>
                           )}
@@ -243,7 +319,7 @@ const EachOrder = ({ order }: OrderProps) => {
                           type="submit"
                           className="flex item-center px-4 py-2 bg-rose-400 hover:bg-rose-500 font-lg font-bold font-mono rounded-lg mt-2"
                         >
-                          {uploading ? (
+                          {isFileUploading ? (
                             <>
                               <Loader2Icon className="animate-spin" />
                             </>
@@ -258,23 +334,43 @@ const EachOrder = ({ order }: OrderProps) => {
               </DialogHeader>
             </DialogContent>
           </Dialog>
+          {blob.length > 0 &&  (
+            <>
+            <div className="relative flex items-center p-2 m-1 bg-white rounded-lg w-full gap-2">
+              {blob?.map((url, index) => (
+                <>
+                  <Link href={url} className="relative z-10 text-black">
+                    <Image src="/zip-folder.png" width={40} height={40} alt="ProjectFiles"/>
+                    <X className="absolute top-0 right-0 text-rose-500 hover:bg-red-500 hover:text-black bg-white rounded-full p-1 h-4 w-4 z-10 cursor-pointer" onClick={()=>DeleteFile(url)}/>
+                  </Link>
+                </>
+              ))}
+              </div>
+            </>
+          )}
 
           <div className="flex flex-col gap-2 items-start mt-4">
             <p className="font-semibold text-lg">Progress</p>
             <Slider
               defaultValue={[
-                currentProject?.project_progress || Order_project?.project_progress,
+                currentProject?.project_progress ||
+                  Order_project?.project_progress,
               ]}
               max={100}
               step={10}
               onValueChange={(v) => handleSliderChange(v[0])}
             />
             <Progress
-              value={currentProject?.project_progress || Order_project?.project_progress}
+              value={
+                currentProject?.project_progress ||
+                Order_project?.project_progress
+              }
             />
             <div className="flex flex-row-reverse items-end w-full">
               <span className="font-semibold ">
-                {currentProject?.project_progress || Order_project?.project_progress}%
+                {currentProject?.project_progress ||
+                  Order_project?.project_progress}
+                %
               </span>
             </div>
           </div>
@@ -282,10 +378,19 @@ const EachOrder = ({ order }: OrderProps) => {
           <div>
             <div className="w-full flex items-center justify-center">
               <button
-                type="submit"
+                onClick={DeliverProject}
                 className="text-white bg-green-400  hover:bg-green-500 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
               >
-                Deliver
+                {isDelivering ? (
+                   <>
+                   <Loader2Icon className="animate-spin" />
+                   </>
+                ):(
+                  <>
+                  Deliver
+                  </>
+                )}
+                
               </button>
               <button
                 onClick={() => updateProjectStatus(status.inProgress)}

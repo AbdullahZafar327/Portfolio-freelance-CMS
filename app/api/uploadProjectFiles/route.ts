@@ -1,31 +1,41 @@
-import { currentUser } from "@/lib/current-user"
-import ConnectedToDb from "@/lib/dbConnection"
-import { writeFile } from "fs/promises"
-import { NextResponse } from "next/server"
-import { join } from "path"
+import { put,del } from '@vercel/blob';
+import { NextResponse } from 'next/server';
+import { createWriteStream } from "fs";
+import JSZip from 'jszip'
 
+export async function POST(request: Request): Promise<NextResponse> {
+  try {
+    const formData = await request.formData();
+    const files = formData.getAll("files") as File[];
 
-export const POST = async(req:Request)=>{
-    await ConnectedToDb()
+    const zip = new JSZip();
+    for (const file of files) {
+      const fileContent = await file.arrayBuffer(); // Read file content as ArrayBuffer
+      zip.file(file.name, fileContent); // Add file to ZIP archive
+    }
 
+    const zipBlob = await zip.generateAsync({ type: "blob" });
+
+    const blob = await put("projectFiles.zip", zipBlob, {
+      access: "public",
+    });
+
+    return NextResponse.json({ downloadUrl: blob.downloadUrl });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}
+
+export async function DELETE(req:Request){
     try {
-        const user = await currentUser()
-        const data = await req.formData()
-        const files:File | null = data.get("Files") as unknown as typeof files
-
-        if(!files){
-         return new NextResponse("Files are not defined",{status:404})
-        }
-
-        const bytes = await files.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-
-        const path = join("/","tmp",files.name)
-        await writeFile(path,buffer)
-        console.log(`open ${path} to see the uploaded files`)
-
+        const json = await req.json() 
+        console.log({json})
+        const response = await del(json.url)
+        return new NextResponse("Deleted successfully",{status:200})
     } catch (error) {
         console.log(error)
-        return new NextResponse("internal server Error")
+        return new NextResponse("internal server error")
     }
+    
 }
