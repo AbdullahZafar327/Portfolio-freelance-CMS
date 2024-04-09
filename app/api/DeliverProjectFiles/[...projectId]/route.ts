@@ -59,11 +59,11 @@ export const PATCH = async (
 
     await projectToUpdate.save();
 
-    // const order = await Order.findByIdAndDelete({
-    //   _id:orderId
-    // })
+    const order = await Order.findByIdAndDelete({
+      _id:orderId
+    })
 
-    // await order.save()
+    await order.save()
 
     return new NextResponse("Updates Successfully", { status: 200 });
   } catch (error) {
