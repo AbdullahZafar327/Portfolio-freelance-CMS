@@ -8,8 +8,9 @@ export const currentUser = async ()=>{
  try {
     const { userId } = auth()
     await ConnectedToDb()
+
     if(!userId){
-        return null
+        return redirectToSignIn()
     }
    
     const profile = await User.findOne({user_id:userId})
