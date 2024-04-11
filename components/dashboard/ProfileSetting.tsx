@@ -248,7 +248,7 @@ const ProfileSetting = () => {
                                 <div>Loading countries...</div>
                               ) : (
                                 countries.map((country, index) => (
-                                  <SelectItem key={index} value={country.name} onFocus={field.onBlur} >
+                                  <SelectItem key={index} value={country.name} onBlur={field.onBlur} >
                                     <div className="flex w-full items-center justify-between">
                                       <p className="font-karla text-sm text-zinc-600">
                                         {country.name}
