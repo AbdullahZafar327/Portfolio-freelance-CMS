@@ -10,11 +10,7 @@ export const GET = async (req: NextRequest) => {
         const user = await currentUser();
         const {userId} = auth()
         console.log(user)
-
-        if (!user || userId) {
-            return new NextResponse("Unauthorized user", { status: 404 });
-        }
-
+    
         const projects = await Project.find({ project_user: user._id });
 
         if (projects.length === 0) {
