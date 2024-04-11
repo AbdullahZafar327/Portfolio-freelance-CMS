@@ -29,6 +29,7 @@ import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { useUserStore } from "@/lib/userStore";
 import { useToast } from "../ui/use-toast";
+import { Skeleton } from "../ui/skeleton";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -74,6 +75,10 @@ const ProfileSetting = () => {
   
 
   const user = useMemo(() => MemoUser, [MemoUser]);
+
+  if(!user){
+    return <Skeleton className="h-full rounded-lg w-full"/>
+  }
 
 
 

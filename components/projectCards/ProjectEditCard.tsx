@@ -31,8 +31,9 @@ import { CheckCheck, ShieldAlert } from "lucide-react";
 import { ToastAction } from "../ui/toast";
 import useProjectsStore from "@/lib/projectStore";
 import { useAuth } from "@clerk/nextjs";
-import UploadFile from "../project-modification/uploadFile";
 import UploadfileonCard from "../project-modification/UploadfileonCard";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface projectProps {
   project: IProject;
@@ -96,6 +97,10 @@ const ProjectEditCard = ({ project }: projectProps) => {
   } = project;
   const { fetchProjects } = useProjectsStore();
   const { userId } = useAuth();
+
+  if(!project){
+    return <Skeleton count={4}/>
+  }
 
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
