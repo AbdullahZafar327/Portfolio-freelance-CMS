@@ -3,12 +3,9 @@ import { IProject } from "@/lib/mongodb";
 import { Check, CheckCheck, Download, DownloadCloud } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import { Accordion, AccordionItem, AccordionTrigger } from "../ui/accordion";
-import { AccordionContent } from "@radix-ui/react-accordion";
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton"
-
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 interface Finished_ProjectsProps {
   completed_P: IProject;
@@ -24,31 +21,17 @@ const CompletedProject = ({ completed_P }: Finished_ProjectsProps) => {
   } = completed_P;
   const [showOverlay, setShowOverlay] = useState(false);
 
-  const handleDownload = (fileUrl: string) => {
-    fetch(fileUrl)
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute(
-          "download",
-          fileUrl.split("/").pop() || "downloaded-file"
-        );
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode?.removeChild(link);
-      })
-      .catch((error) => console.error("Error downloading file:", error));
-  };
+  if (!completed_P) {
+    return <Skeleton count={5} />;
+  }
+
 
   return (
     <>
-    <Skeleton className="h-full w-full rounded-lg" >
       <div className="flex flex-col bg-black rounded-xl text-white w-full p-4">
         <div className="flex items-center justify-center p-2">
           <p className="font-bold 2xl:text-2xl text-xl text-center font-serif">
-            {project_type}
+            {project_type }
           </p>
         </div>
         <div className="flex flex-col mt-4">
@@ -89,7 +72,6 @@ const CompletedProject = ({ completed_P }: Finished_ProjectsProps) => {
           </div>
         </div>
       </div>
-      </Skeleton>
     </>
   );
 };
