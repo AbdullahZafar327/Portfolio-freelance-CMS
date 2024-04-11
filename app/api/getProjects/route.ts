@@ -7,14 +7,13 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (req: NextRequest) => {
     await ConnectedToDb();
     try {
-        const user = await currentUser();
-        const {userId} = await auth()
+        const {userId} = auth()
 
-        if (!user || userId) {
+        if (!userId) {
             return new NextResponse("Unauthorized user", { status: 404 });
         }
 
-        const projects = await Project.find({ project_user: user._id });
+        const projects = await Project.find({ project_user: userId });
 
         if (projects.length === 0) {
             return new NextResponse("No projects found for the user", { status: 404 });
