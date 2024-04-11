@@ -111,7 +111,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
         variant: "Good",
       });
       setTimeout(() => {
-        window.location.href = `http://localhost:3000/dashboard/projects/${userId}`;
+        window.location.href = `http://codingbucket.vercel.app/dashboard/projects/${userId}`;
       }, 4000);
     }
   }, [toast]);
