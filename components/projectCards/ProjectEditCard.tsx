@@ -25,7 +25,7 @@ import {
 import { Separator } from "../ui/separator";
 import { Textarea } from "../ui/textarea";
 import Dialogue from "../dashboard/Dialogue";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { CheckCheck, ShieldAlert } from "lucide-react";
 import { ToastAction } from "../ui/toast";
@@ -111,7 +111,8 @@ const ProjectEditCard = ({ project }: projectProps) => {
         variant: "Good",
       });
       setTimeout(() => {
-        window.location.href = `codingbucket.vercel.app/dashboard/projects/${userId}`;
+
+        Router.push(`/dashboard/projects/${userId}`)
       }, 4000);
     }
   }, [toast]);
