@@ -1,14 +1,16 @@
 import { currentUser } from "@/lib/current-user";
 import ConnectedToDb from "@/lib/dbConnection";
 import { Project } from "@/lib/mongodb";
+import { auth } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
     await ConnectedToDb();
     try {
         const user = await currentUser();
+        const {userId} = await auth()
 
-        if (!user) {
+        if (!user || userId) {
             return new NextResponse("Unauthorized user", { status: 404 });
         }
 
