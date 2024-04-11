@@ -25,7 +25,7 @@ import {
 import { Separator } from "../ui/separator";
 import { Textarea } from "../ui/textarea";
 import Dialogue from "../dashboard/Dialogue";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { CheckCheck, ShieldAlert } from "lucide-react";
 import { ToastAction } from "../ui/toast";
@@ -89,14 +89,12 @@ const ProjectEditCard = ({ project }: projectProps) => {
     project_type,
     project_description,
     project_title,
-    createdAt,
     projectFiles,
     project_requirements,
     price,
     paid,
   } = project;
   const { fetchProjects } = useProjectsStore();
-  const isPaymentToast = useProjectsStore((state) => state.isPaymentToast);
   const { userId } = useAuth();
 
   const ToggleEdit = () => {

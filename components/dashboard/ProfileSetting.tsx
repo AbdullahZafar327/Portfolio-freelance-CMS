@@ -204,12 +204,16 @@ const ProfileSetting = () => {
                             PhoneNumber{" "}
                             <code className="text-sm font-light text-zinc-500">{`(optional)`}</code>
                           </FormLabel>
-                          <FormControl className="relative">
+                          <FormControl className="relative"
+                          >
                             <PhoneInput
                               country={"US"}
                               {...field}
                               onChange={field.onChange}
                               value={field.value}
+                              onBlur={(e) => {
+                                field.onBlur(e);
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -246,7 +250,7 @@ const ProfileSetting = () => {
                                 <div>Loading countries...</div>
                               ) : (
                                 countries.map((country, index) => (
-                                  <SelectItem key={index} value={country.name}>
+                                  <SelectItem key={index} value={country.name} >
                                     <div className="flex w-full items-center justify-between">
                                       <p className="font-karla text-sm text-zinc-600">
                                         {country.name}
