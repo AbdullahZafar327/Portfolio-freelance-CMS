@@ -124,6 +124,7 @@ const ProfileSetting = () => {
         title:"Oops something went wrong",
         variant:"destructive"
       })
+    
       console.log("Error occurred while creating project", error);
     }
   };
@@ -248,7 +249,7 @@ const ProfileSetting = () => {
                                 <div>Loading countries...</div>
                               ) : (
                                 countries.map((country, index) => (
-                                  <SelectItem key={index} value={country.name} onBlur={field.onBlur} >
+                                  <SelectItem key={index} value={country.name}>
                                     <div className="flex w-full items-center justify-between">
                                       <p className="font-karla text-sm text-zinc-600">
                                         {country.name}
