@@ -211,9 +211,9 @@ const ProfileSetting = () => {
                               {...field}
                               onChange={field.onChange}
                               value={field.value}
-                              onBlur={(e) => {
-                                field.onBlur(e);
-                              }}
+                              onBlur={
+                                field.onBlur
+                              }
                             />
                           </FormControl>
                           <FormMessage />
