@@ -208,10 +208,10 @@ const ProfileSetting = () => {
                           >
                             <PhoneInput
                               country={"US"}
-                              {...field}
                               onChange={field.onChange}
                               value={field.value}
                               onBlur={field.onBlur}
+                              onFocus={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
