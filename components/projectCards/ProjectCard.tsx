@@ -6,11 +6,16 @@ import { Separator } from "../ui/separator";
 import ProfileAvatar from "../custom-ui/ProfileAvatar";
 import { currentUser } from "@/lib/current-user";
 import Image from "next/image";
+import Skeleton from "react-loading-skeleton";
 
 const ProjectCard = async ({ project }: { project: IProject }) => {
   const { project_type, createdAt, project_progress, paid } = project;
   const Admin = await User.findOne({ role: Role.Admin });
   const user = await currentUser();
+
+  if(!project){
+    return <Skeleton count={5}/>
+  }
 
   return (
     <div className="flex flex-col p-2 bg-black rounded-3xl text-white">
