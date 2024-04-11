@@ -84,7 +84,7 @@ const ProfileSetting = () => {
       name: user?.user_name,
       about: user?.user_about ,
       phoneNumber: user?.user_phoneNumber || "",
-      country: user?.user_country ,
+      country: user?.user_country || "",
       imageUrl: user?.user_image ,
     },
   });

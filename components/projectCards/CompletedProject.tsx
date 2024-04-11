@@ -7,6 +7,8 @@ import { Accordion, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton"
+
 
 interface Finished_ProjectsProps {
   completed_P: IProject;
@@ -42,6 +44,7 @@ const CompletedProject = ({ completed_P }: Finished_ProjectsProps) => {
 
   return (
     <>
+    <Skeleton className="h-full w-full rounded-lg" >
       <div className="flex flex-col bg-black rounded-xl text-white w-full p-4">
         <div className="flex items-center justify-center p-2">
           <p className="font-bold 2xl:text-2xl text-xl text-center font-serif">
@@ -86,6 +89,7 @@ const CompletedProject = ({ completed_P }: Finished_ProjectsProps) => {
           </div>
         </div>
       </div>
+      </Skeleton>
     </>
   );
 };
