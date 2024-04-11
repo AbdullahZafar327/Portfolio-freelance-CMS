@@ -211,9 +211,7 @@ const ProfileSetting = () => {
                               {...field}
                               onChange={field.onChange}
                               value={field.value}
-                              onBlur={
-                                field.onBlur
-                              }
+                              onBlur={field.onBlur}
                             />
                           </FormControl>
                           <FormMessage />
@@ -250,7 +248,7 @@ const ProfileSetting = () => {
                                 <div>Loading countries...</div>
                               ) : (
                                 countries.map((country, index) => (
-                                  <SelectItem key={index} value={country.name} >
+                                  <SelectItem key={index} value={country.name} onFocus={field.onBlur} >
                                     <div className="flex w-full items-center justify-between">
                                       <p className="font-karla text-sm text-zinc-600">
                                         {country.name}
