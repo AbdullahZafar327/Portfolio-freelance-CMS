@@ -104,7 +104,7 @@ const About = () => {
             >
               Hi&nbsp;
               <Image src="/bear.png" alt="hi there" width={30} height={30} />
-              I'm Abdullah
+              I&apos;m Abdullah
             </motion.h1>
             <motion.div
               style={{
@@ -119,7 +119,7 @@ const About = () => {
             >
               {" "}
               <p className="text-lg font-karla">
-                I build 3D Visuals ,UX UI Designs and Full stack Web applications.
+                I build 3D Visuals &#39;UX UI Designs and Full stack Web applications
               </p>
             </motion.div>
             <motion.div className="xl:h-[800px] xl:w-[800px] md:h-[600px] md:w-[600px] h-[500px] w-[500px] animate-blob bg-gradient-tr from-violet-500 to bg-purple-700 mt-8 flex items-center justify-center"
@@ -157,7 +157,7 @@ const About = () => {
               My goal is to empower entrepreneurs through innovative online
               solutions. From crafting complex applications to designing
               captivating user interfaces, I leverage a unique blend of skills
-              to make every website exceptional. With expertise in 3D effects,
+              to make every website exceptional. With expertise in 3D effects&#39;
               parallax scrolling, and functional design, I ensure that each
               project is both visually stunning and highly functional.
             </p>
