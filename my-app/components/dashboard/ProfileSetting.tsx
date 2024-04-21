@@ -80,19 +80,10 @@ const ProfileSetting = () => {
     };
 
     fetchData();
-  }, [
-    fetchUser,
-    form,
-    user?.user_about,
-    user?.user_country,
-    user?.user_image,
-    user?.user_name,
-    user?.user_phoneNumber,
-  ]);
+  }, []);
 
   useEffect(() => {
     const fetchCountries = async () => {
-      try {
         const response = await axios.get("https://restcountries.com/v3.1/all");
         const countriesData = response.data.map((country: any) => ({
           name: country.name.common,
@@ -100,10 +91,6 @@ const ProfileSetting = () => {
         }));
         setCountries(countriesData);
         setLoading(false);
-      } catch (error) {
-        console.log("Error fetching countries:", error);
-        setLoading(false);
-      }
     };
 
     fetchCountries();
