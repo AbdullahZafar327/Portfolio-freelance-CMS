@@ -96,11 +96,8 @@ const ProjectEditCard = ({ project }: projectProps) => {
     paid,
   } = project;
   const { fetchProjects } = useProjectsStore();
-  const { userId } = useAuth();
 
-  if (!project) {
-    return <Skeleton count={4} />;
-  }
+ 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -121,9 +118,6 @@ const ProjectEditCard = ({ project }: projectProps) => {
         description: "Checkout Billing page for order information",
         variant: "Good",
       });
-      setTimeout(() => {
-        Router.push(`/dashboard/projects/${userId}`);
-      }, 4000);
     }
   }, []);
 
@@ -160,6 +154,10 @@ const ProjectEditCard = ({ project }: projectProps) => {
       });
     }
   };
+
+  if (!project) {
+    return <Skeleton count={4} />;
+  }
 
   const Delete = async () => {
     try {

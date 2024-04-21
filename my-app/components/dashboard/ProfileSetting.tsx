@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {  useState ,useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -56,7 +56,7 @@ const ProfileSetting = () => {
   const [user,setUser] = useState(MemoUser)
   const { toast } = useToast();
 
-  //@ts-ignore
+  
   useEffect(() => {
     const fetchData = async () => {
       await fetchUser();
@@ -65,7 +65,7 @@ const ProfileSetting = () => {
     fetchData();
   }, []);
 
-  //@ts-ignore
+  
   useEffect(() => {
     const fetchCountries = async () => {
         const response = await axios.get("https://restcountries.com/v3.1/all");
@@ -79,7 +79,7 @@ const ProfileSetting = () => {
 
     fetchCountries();
   }, []);
-//@ts-ignore
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -90,8 +90,6 @@ const ProfileSetting = () => {
       imageUrl: user?.user_image || "",
     },
   });
-
- 
 
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
