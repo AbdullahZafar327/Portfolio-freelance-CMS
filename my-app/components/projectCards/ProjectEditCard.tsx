@@ -97,16 +97,16 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const { fetchProjects } = useProjectsStore();
 
 
-  useEffect(() => {
-    if (window.location.search.includes("success=true")) {
-      toast({
-        title: "Payment succeeded",
-        description: "Checkout Billing page for order information",
-        variant: "Good",
-      });
-      fetchProjects()
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.location.search.includes("success=true")) {
+  //     toast({
+  //       title: "Payment succeeded",
+  //       description: "Checkout Billing page for order information",
+  //       variant: "Good",
+  //     });
+  //     fetchProjects()
+  //   }
+  // }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
