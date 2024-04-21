@@ -1,0 +1,11 @@
+.step-item{
+    @apply relative flex flex-col gap-8 justify-between items-center md:w-80 w-[290px];
+}
+
+.step-item:not(:first-child):before{
+    @apply content-[''] absolute bg-black w-full h-[6px] lg:right-2/4 top-12 right-0 -translate-y-1 rotate-90 lg:rotate-0 z-0;
+}
+
+.step{
+    @apply relative z-10 flex h-24 w-24 items-center justify-center bg-violet-500 rounded-full font-bold text-3xl text-white shadow-lg shadow-black
+}
