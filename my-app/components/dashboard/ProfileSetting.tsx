@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -29,7 +29,6 @@ import Image from "next/image";
 import { Textarea } from "../ui/textarea";
 import { useUserStore } from "@/lib/userStore";
 import { useToast } from "../ui/use-toast";
-import { Skeleton } from "../ui/skeleton";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -71,16 +70,10 @@ const ProfileSetting = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchUser();
-      form.reset()
-      form.setValue("name", user?.user_name || "");
-      form.setValue("about", user?.user_about || "");
-      form.setValue("phoneNumber", user?.user_phoneNumber || "");
-      form.setValue("country", user?.user_country || "");
-      form.setValue("imageUrl", user?.user_image || "");
     };
 
     fetchData();
-  }, [user]);
+  }, [form.reset]);
 
   useEffect(() => {
     const fetchCountries = async () => {
