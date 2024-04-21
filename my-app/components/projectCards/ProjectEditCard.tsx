@@ -33,7 +33,7 @@ import useProjectsStore from "@/lib/projectStore";
 import { useAuth } from "@clerk/nextjs";
 import UploadfileonCard from "../project-modification/UploadfileonCard";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css'
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface projectProps {
   project: IProject;
@@ -98,9 +98,22 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const { fetchProjects } = useProjectsStore();
   const { userId } = useAuth();
 
-  if(!project){
-    return <Skeleton count={4}/>
+  if (!project) {
+    return <Skeleton count={4} />;
   }
+
+  useEffect(() => {
+    if (window.location.search.includes("success=true")) {
+      toast({
+        title: "Payment succeeded",
+        description: "Checkout Billing page for order information",
+        variant: "Good",
+      });
+      setTimeout(() => {
+        Router.push(`/dashboard/projects/${userId}`);
+      }, 4000);
+    }
+  }, [Router]);
 
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
@@ -117,21 +130,6 @@ const ProjectEditCard = ({ project }: projectProps) => {
       fileUrl: currentProject.projectFiles,
     },
   });
-  
-  // useEffect(() => {
-  //   if (window.location.search.includes("success=true")) {
-  //     toast({
-  //       title: "Payment succeeded",
-  //       description: "Checkout Billing page for order information",
-  //       variant: "Good",
-  //     });
-  //     setTimeout(() => {
-  //       Router.push(`/dashboard/projects/${userId}`);
-  //     }, 4000);
-  //   }
-  // }, [Router]);
-
-
 
   const isLoading = form.formState.isSubmitting;
 
