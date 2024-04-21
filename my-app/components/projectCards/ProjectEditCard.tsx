@@ -105,6 +105,18 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
   };
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      projectName: currentProject.project_title,
+      projectType: currentProject.project_type,
+      Requirements: currentProject.project_requirements,
+      Description: currentProject.project_description,
+      Price: currentProject.price,
+      fileUrl: currentProject.projectFiles,
+    },
+  });
   
   useEffect(() => {
     if (window.location.search.includes("success=true")) {
@@ -119,17 +131,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
     }
   }, [toast, Router, userId]);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      projectName: currentProject.project_title,
-      projectType: currentProject.project_type,
-      Requirements: currentProject.project_requirements,
-      Description: currentProject.project_description,
-      Price: currentProject.price,
-      fileUrl: currentProject.projectFiles,
-    },
-  });
+
 
   const isLoading = form.formState.isSubmitting;
 
