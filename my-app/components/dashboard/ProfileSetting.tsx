@@ -59,9 +59,7 @@ const ProfileSetting = () => {
   
   const user = useMemo(() => MemoUser, [MemoUser]);
 
-  if(!user){
-    return <Skeleton className="h-full rounded-lg w-full"/>
-  }
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
