@@ -105,7 +105,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
   };
-
+  
   useEffect(() => {
     if (window.location.search.includes("success=true")) {
       toast({
@@ -114,11 +114,10 @@ const ProjectEditCard = ({ project }: projectProps) => {
         variant: "Good",
       });
       setTimeout(() => {
-
-        Router.push(`/dashboard/projects/${userId}`)
+        Router.push(`/dashboard/projects/${userId}`);
       }, 4000);
     }
-  }, [toast]);
+  }, [toast, Router, userId]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
