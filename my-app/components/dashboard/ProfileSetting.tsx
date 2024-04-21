@@ -54,9 +54,8 @@ const ProfileSetting = () => {
   const [isEditing, setIsEditing] = useState(false);
   const fetchUser = useUserStore((state) => state.fetchUser);
   const MemoUser = useUserStore((state) => state.user);
+  const [user,setUser] = useState(MemoUser)
   const { toast } = useToast();
-
-  const user = useMemo(() => MemoUser, [MemoUser]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -99,6 +98,7 @@ const ProfileSetting = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.patch("/api/updateProfile/update", values);
+      setUser(user)
       form.reset();
       setIsEditing(false);
       fetchUser();
