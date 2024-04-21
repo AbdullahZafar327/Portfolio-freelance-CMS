@@ -71,6 +71,7 @@ const ProfileSetting = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchUser();
+      form.reset()
       form.setValue("name", user?.user_name || "");
       form.setValue("about", user?.user_about || "");
       form.setValue("phoneNumber", user?.user_phoneNumber || "");
@@ -79,7 +80,7 @@ const ProfileSetting = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const fetchCountries = async () => {
