@@ -56,6 +56,24 @@ const ProfileSetting = () => {
   const MemoUser = useUserStore((state)=>state.user)
   const {toast} = useToast()
 
+  
+  const user = useMemo(() => MemoUser, [MemoUser]);
+
+  if(!user){
+    return <Skeleton className="h-full rounded-lg w-full"/>
+  }
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: user?.user_name,
+      about: user?.user_about ,
+      phoneNumber: user?.user_phoneNumber || "",
+      country: user?.user_country || "",
+      imageUrl: user?.user_image ,
+    },
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,28 +89,8 @@ const ProfileSetting = () => {
     };
   
     fetchData();
-  }, [isEditing]);
-  
+  }, [fetchUser, form, user?.user_about, user?.user_country, user?.user_image, user?.user_name, user?.user_phoneNumber]);
 
-  const user = useMemo(() => MemoUser, [MemoUser]);
-
-  if(!user){
-    return <Skeleton className="h-full rounded-lg w-full"/>
-  }
-
-
-
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: user?.user_name,
-      about: user?.user_about ,
-      phoneNumber: user?.user_phoneNumber || "",
-      country: user?.user_country || "",
-      imageUrl: user?.user_image ,
-    },
-  });
 
 
   useEffect(() => {
