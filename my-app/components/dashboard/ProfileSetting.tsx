@@ -62,30 +62,25 @@ const ProfileSetting = () => {
   if(!user){
     return <Skeleton className="h-full rounded-lg w-full"/>
   }
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user?.user_name,
-      about: user?.user_about ,
+      name: user?.user_name || "",
+      about: user?.user_about || "",
       phoneNumber: user?.user_phoneNumber || "",
       country: user?.user_country || "",
-      imageUrl: user?.user_image ,
+      imageUrl: user?.user_image || "",
     },
   });
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
         await fetchUser();
         form.setValue("name", user?.user_name || "");
         form.setValue("about", user?.user_about || "");
         form.setValue("phoneNumber", user?.user_phoneNumber || "");
         form.setValue("country", user?.user_country || "");
         form.setValue("imageUrl", user?.user_image || "");
-      } catch (error) {
-        console.log("Error fetching user data:", error);
-      }
     };
   
     fetchData();
@@ -108,9 +103,10 @@ const ProfileSetting = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCountries();
   }, []);
+  
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
