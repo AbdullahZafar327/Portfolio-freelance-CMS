@@ -56,25 +56,15 @@ const ProfileSetting = () => {
   const [user,setUser] = useState(MemoUser)
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: user?.user_name || "",
-      about: user?.user_about || "",
-      phoneNumber: user?.user_phoneNumber || "",
-      country: user?.user_country || "",
-      imageUrl: user?.user_image || "",
-    },
-  });
-
   useEffect(() => {
     const fetchData = async () => {
       await fetchUser();
     };
 
     fetchData();
-  }, [form.reset]);
+  }, []);
 
+  
   useEffect(() => {
     const fetchCountries = async () => {
         const response = await axios.get("https://restcountries.com/v3.1/all");
@@ -88,6 +78,20 @@ const ProfileSetting = () => {
 
     fetchCountries();
   }, []);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: user?.user_name || "",
+      about: user?.user_about || "",
+      phoneNumber: user?.user_phoneNumber || "",
+      country: user?.user_country || "",
+      imageUrl: user?.user_image || "",
+    },
+  });
+
+ 
+
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
