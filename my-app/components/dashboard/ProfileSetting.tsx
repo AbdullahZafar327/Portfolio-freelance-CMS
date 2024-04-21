@@ -98,7 +98,7 @@ const ProfileSetting = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.patch("/api/updateProfile/update", values);
-      setUser(user)
+      setUser(await response.data)
       form.reset();
       setIsEditing(false);
       fetchUser();
