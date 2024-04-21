@@ -129,7 +129,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
         Router.push(`/dashboard/projects/${userId}`);
       }, 4000);
     }
-  }, [toast, Router, userId]);
+  }, [Router]);
 
 
 
