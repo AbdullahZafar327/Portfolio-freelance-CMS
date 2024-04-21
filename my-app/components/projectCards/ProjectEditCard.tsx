@@ -30,7 +30,6 @@ import { useToast } from "../ui/use-toast";
 import { CheckCheck, ShieldAlert } from "lucide-react";
 import { ToastAction } from "../ui/toast";
 import useProjectsStore from "@/lib/projectStore";
-import { useAuth } from "@clerk/nextjs";
 import UploadfileonCard from "../project-modification/UploadfileonCard";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -97,19 +96,6 @@ const ProjectEditCard = ({ project }: projectProps) => {
   } = project;
   const { fetchProjects } = useProjectsStore();
 
- 
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      projectName: currentProject.project_title,
-      projectType: currentProject.project_type,
-      Requirements: currentProject.project_requirements,
-      Description: currentProject.project_description,
-      Price: currentProject.price,
-      fileUrl: currentProject.projectFiles,
-    },
-  });
 
   useEffect(() => {
     if (window.location.search.includes("success=true")) {
@@ -118,8 +104,21 @@ const ProjectEditCard = ({ project }: projectProps) => {
         description: "Checkout Billing page for order information",
         variant: "Good",
       });
+      fetchProjects()
     }
   }, []);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      projectName: currentProject?.project_title,
+      projectType: currentProject?.project_type,
+      Requirements: currentProject?.project_requirements,
+      Description: currentProject?.project_description,
+      Price: currentProject?.price,
+      fileUrl: currentProject?.projectFiles,
+    },
+  });
 
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
@@ -155,9 +154,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
     }
   };
 
-  if (!project) {
-    return <Skeleton count={4} />;
-  }
+
 
   const Delete = async () => {
     try {
@@ -219,6 +216,11 @@ const ProjectEditCard = ({ project }: projectProps) => {
       });
     }
   };
+
+
+  if (!project) {
+    return <Skeleton count={4} />;
+  }
 
   return (
     <>
