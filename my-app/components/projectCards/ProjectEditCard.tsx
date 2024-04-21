@@ -113,7 +113,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
         Router.push(`/dashboard/projects/${userId}`);
       }, 4000);
     }
-  }, [Router]);
+  }, []);
 
   const ToggleEdit = () => {
     setIsEditing(!isEditing);
