@@ -118,18 +118,18 @@ const ProjectEditCard = ({ project }: projectProps) => {
     },
   });
   
-  useEffect(() => {
-    if (window.location.search.includes("success=true")) {
-      toast({
-        title: "Payment succeeded",
-        description: "Checkout Billing page for order information",
-        variant: "Good",
-      });
-      setTimeout(() => {
-        Router.push(`/dashboard/projects/${userId}`);
-      }, 4000);
-    }
-  }, [Router]);
+  // useEffect(() => {
+  //   if (window.location.search.includes("success=true")) {
+  //     toast({
+  //       title: "Payment succeeded",
+  //       description: "Checkout Billing page for order information",
+  //       variant: "Good",
+  //     });
+  //     setTimeout(() => {
+  //       Router.push(`/dashboard/projects/${userId}`);
+  //     }, 4000);
+  //   }
+  // }, [Router]);
 
 
 
