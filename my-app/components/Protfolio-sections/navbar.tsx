@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { UserButton, useAuth } from "@clerk/nextjs";
@@ -29,7 +29,7 @@ const Menu = [
 const Navbar = () => {
   const { userId } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const {setIsLoading} = useProjectsStore()
+  const {setIsLoading,isLoading} = useProjectsStore()
 
   const isAuth = !!userId;
   const toggleMenu = () => {
@@ -47,12 +47,14 @@ const Navbar = () => {
       });
     }
   };
+  useEffect(()=>{
+    if(window.location.pathname === '/sign-in' || window.location.pathname === `/sign-up`){
+      setIsLoading(false)
+    }
+  },[isLoading,setIsLoading])
 
   const simulateLoading = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 5000); 
   };
 
   return (
