@@ -33,6 +33,7 @@ import useProjectsStore from "@/lib/projectStore";
 import UploadfileonCard from "../project-modification/UploadfileonCard";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useAuth } from "@clerk/nextjs";
 
 interface projectProps {
   project: IProject;
@@ -80,6 +81,7 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const [currentProject, setCurrentProject] = useState(project);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPaying, setPaying] = useState(false);
+  const  {userId} = useAuth()
 
   const Router = useRouter();
 
@@ -97,16 +99,19 @@ const ProjectEditCard = ({ project }: projectProps) => {
   const { fetchProjects } = useProjectsStore();
 
 
-  // useEffect(() => {
-  //   if (window.location.search.includes("success=true")) {
-  //     toast({
-  //       title: "Payment succeeded",
-  //       description: "Checkout Billing page for order information",
-  //       variant: "Good",
-  //     });
-  //     fetchProjects()
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (window.location.search.includes("success=true")) {
+      toast({
+        title: "Payment succeeded",
+        description: "Checkout Billing page for order information",
+        variant: "Good",
+      });
+      setTimeout(()=>{
+        Router.push(`/dashboard/projects/${userId}`)
+      })
+      fetchProjects()
+    }
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
